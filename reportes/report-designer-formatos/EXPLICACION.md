@@ -2,8 +2,8 @@
 
 Este documento explica, sin entrar en código, qué problema resuelve esta funcionalidad, cómo
 está organizada hoy y qué limitación conocida tiene. Para el detalle técnico (métodos, archivos,
-parámetros) ver `Reportes/FORMATOS_DESIGNER.md` (formatos generales) y
-`PLAN_DESIGNER_AMORTIZACION_GUARDADO.md` (Amortización).
+parámetros) ver [`REFERENCIA.md`](./REFERENCIA.md) (formatos generales) y
+[`../../cartera/report-designer-amortizacion/PLAN_GUARDADO.md`](../../cartera/report-designer-amortizacion/PLAN_GUARDADO.md) (Amortización).
 
 ## Qué problema resuelve
 

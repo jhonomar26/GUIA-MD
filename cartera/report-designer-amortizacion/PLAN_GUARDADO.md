@@ -19,7 +19,7 @@ documentación oficial de DevExpress: **`SaveCallbackRouteValues` solo se usa si
 proyecto), DevExpress enruta el guardado por su `SetData` sin excepción, sin API documentada para
 desactivarlo por instancia. Callback de guardado propio: descartado definitivamente.
 
-**Camino que sí funciona (el que ya preveía el plan original `PLAN_FORMATO_DESIGNER_AMORTIZACION.md`,
+**Camino que sí funciona (el que ya preveía el plan original [`PLAN.md`](./PLAN.md),
 "Opción 2"):** agregar una delegación mínima dentro de `FormatoDesignerStorage.SetData` — el único
 storage que DevExpress va a invocar de todas formas — que reconozca cuándo el reporte que se está
 guardando es de Amortización y delegue a `FormatoAmortizacionDesignerStorage.SetData` ya escrito.

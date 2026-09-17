@@ -1,0 +1,1 @@
+También se debe realizar la funcionalidad de traslado de ticket, pero con un log donde se almacene fecha y hora del traslado y el usuario que lo traslado y a quien lo trasladó (Y lo que se considere conveniente colocar en la info).
