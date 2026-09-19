@@ -9,4 +9,5 @@ Corresponde a `Negocio/Soporte/` y `Negocio/Crm/` (gestión de tickets) en el re
 | [fix-ajustes-soporte-estado](./fix-ajustes-soporte-estado/) | Fixes sobre Solucionado: reapertura por mensaje, candado de edición, refresco de UI |
 | [notificacion-cambio-estado](./notificacion-cambio-estado/) | Correo al cliente cuando un ticket cambia de estado |
 | [soporte-ajustes-dias](./soporte-ajustes-dias/) | SLA en horas hábiles (deja de contar fin de semana/festivos); solucionado→cerrado pendiente |
+| [cierre-manual-tickets-vencidos](./cierre-manual-tickets-vencidos/) | Cierre de tickets vencidos (sin calificar/solucionado) manual, respetando calendario, ventana en días hábiles |
 | [dxlist-chat-soporte](./dxlist-chat-soporte/) | Spike: `dxList` vs. render manual para el chat — descartado, no se migra |

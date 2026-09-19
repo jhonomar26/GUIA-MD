@@ -31,6 +31,7 @@ notas-siian/
     <feature-o-iniciativa>/
       README.md                ← índice de la carpeta, 3-5 líneas
       REQUERIMIENTO.md         ← pedido original + indagación (primer doc, apenas llega el requerimiento)
+      ANALISIS.md              ← si hay máquina de estados o reglas de negocio no triviales (opcional, ANTES de programar)
       ADR.md                   ← si hubo una decisión real de diseño (opcional)
       PLAN.md                  ← si el trabajo se planeó por fases (opcional)
       IMPLEMENTACION.md        ← Reference: qué quedó construido, archivo por archivo
@@ -38,9 +39,11 @@ notas-siian/
 ```
 
 **Flujo:** `REQUERIMIENTO.md` (pedido crudo → indagación → regla de negocio clara) →
-`ADR.md` y/o `PLAN.md` (una vez hay enfoque) → `IMPLEMENTACION.md` (mientras/al terminar
-de construir) → `EXPLICACION.md` (opcional, para no-técnicos). Solo `REQUERIMIENTO.md` se
-crea de entrada; el resto solo si aplica (ver tabla abajo).
+`ANALISIS.md` (diagrama de estados/dependencias + reglas de negocio derivadas, cuando la
+feature lo amerite — **antes** de decidir el enfoque técnico) → `ADR.md` y/o `PLAN.md`
+(una vez hay enfoque) → `IMPLEMENTACION.md` (mientras/al terminar de construir) →
+`EXPLICACION.md` (opcional, para no-técnicos). Solo `REQUERIMIENTO.md` se crea de entrada;
+el resto solo si aplica (ver tabla abajo).
 
 **¿Qué es "módulo"?** Los mismos del proyecto: `Cartera`, `Credito`, `AhorrosyAportes`,
 `Contabilidad`, `Cobranzas`, `Garantias`, `Inventario`, `Firmas`, `CentralRiesgo`,
@@ -56,6 +59,7 @@ elegir:
 |---|---|
 | Cambio de 1 método/query obvio, sin ambigüedad ni indagación real | Ninguno — el mensaje de commit alcanza |
 | Hubo indagación real (el pedido original no bastaba, tocó preguntar/entender la regla) | `REQUERIMIENTO.md` |
+| La feature tiene una entidad con estados/transiciones, o reglas de negocio que dependen unas de otras (¿qué pasa si X mientras Y?) | `ANALISIS.md`, **antes** de tocar código — ver "Cómo se hace un ANALISIS.md" abajo |
 | Hubo que decidir entre 2+ enfoques y vale la pena que quede el porqué | `ADR.md` |
 | El trabajo se hizo/se va a hacer por fases y alguien podría retomarlo | `PLAN.md` |
 | Ya está construido y quieres el mapa de archivos/métodos tocados | `IMPLEMENTACION.md` |
@@ -88,6 +92,46 @@ elegir:
 - Antes de crear una carpeta de feature nueva, revisar si ya existe una relacionada
   dentro del módulo — si la hay, actualizar esa (`IMPLEMENTACION.md`) en vez de crear
   otra. Evita fragmentar la misma funcionalidad en 3 carpetas.
+
+## Cómo se hace un ANALISIS.md
+
+No se inventa nada nuevo acá tampoco: es la misma idea de fondo que **Event Storming**
+(descubrir estados, eventos y reglas de negocio de un proceso *antes* de programarlo) y de
+los **diagramas de estados UML** (statecharts) — sin el aparato de taller/sticky-notes,
+porque acá lo escribe una persona (o vos con el asistente) directo en el doc. Precedente ya
+existente en este repo: `soporte/soporte-ajustes-dias/ANALISIS-CIERRE-JOB.md` (hallazgos
+H1-H6 + preguntas + propuesta de fases) — este apartado solo formaliza ese patrón.
+
+**Objetivo:** entender el proceso completo (estados, transiciones, dependencias, reglas)
+*antes* de escribir código, para no ir descubriendo problemas de fondo a mitad de la
+implementación.
+
+**No son pasos secuenciales, son iterativos.** El diagrama no es algo que se dibuja *después*
+de terminar el análisis — es la herramienta con la que se analiza. Arrancar bocetando el
+diagrama apenas se identifiquen los actores/estados (aunque quede incompleto); cada vez que
+no se pueda explicar una transición o falte una flecha, eso *es* un hallazgo o una pregunta
+abierta. Diagrama y hallazgos se completan juntos, en varias vueltas — no "primero el
+diagrama entero, después la lista de hallazgos".
+
+**Contenido típico del doc (el orden de las secciones, no el orden en que se piensan):**
+
+1. **Diagrama de estados** (si la entidad tiene estados/transiciones) — Mermaid
+   `stateDiagram-v2`, etiquetas de nodo/transición **cortas** (nombre del estado o del
+   disparador, nada de fórmulas ni rutas de archivo adentro), con el detalle (qué campo se
+   fija, qué condición aplica) en una tabla debajo del diagrama. `stateDiagram-v2` rinde
+   mejor que `graph`/`flowchart` en paneles angostos (Obsidian) para este tipo de contenido.
+2. **Diagrama de dependencias** (si hay varios componentes/actores involucrados) — quién
+   llama a quién, mismo criterio de etiquetas cortas + tabla.
+3. **Hallazgos** — numerados (H1, H2...), un problema o comportamiento real detectado por
+   hallazgo, con evidencia (archivo:línea si ya se investigó código, o el síntoma reportado
+   si es puramente de negocio).
+4. **Reglas de negocio a confirmar / preguntas abiertas** — en términos de negocio, no de
+   código (mismo criterio que `REQUERIMIENTO.md`/`PLAN.md`): "¿el cierre se puede ejecutar a
+   cualquier hora?", "¿qué pasa si X está en medio de Y?". Se resuelven con el usuario antes
+   de pasar a `ADR.md`/`PLAN.md`.
+
+**Cuándo NO hace falta:** cambios de 1 método sin estados ni reglas cruzadas — ahí alcanza
+con `REQUERIMIENTO.md` (o ni eso, ver la tabla de arriba).
 
 ## Cuándo migrar un doc viejo
 
