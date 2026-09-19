@@ -6,3 +6,4 @@
 | [PLAN.md](./PLAN.md) | Diagnóstico y fases (Caso 1: SQL + C#; Caso 2: pendiente investigación) |
 | [IMPLEMENTACION.md](./IMPLEMENTACION.md) | Qué quedó construido — Caso 1 resuelto, Caso 2 pendiente |
 | [EXPLICACION.md](./EXPLICACION.md) | Para no-técnicos: qué cambió y por qué, sin nombres de código |
+| [ANALISIS-CIERRE-JOB.md](./ANALISIS-CIERRE-JOB.md) | Caso 2: sacar el barrido de tickets del Cierre de Día + ventana en días hábiles. Hallazgos, preguntas al cliente y fases. Sin código aún |
