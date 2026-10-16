@@ -18,7 +18,7 @@ Contabilidad se comporta como crédito. Lo que crédito no tiene se quita, salvo
 | DP2 | Un tipo único no se repite en el comprobante | Se pueden pedir dos documentos únicos del mismo tipo | Se rechaza mientras haya uno activo y no eliminado | En crédito no tiene sentido que un único se repita: es un defecto |
 | DP3 | Recrear copia la descripción y el obligatorio | El nuevo documento nace con descripción vacía y obligatorio | El nuevo copia ambos datos del eliminado | El documento recreado es el mismo pedido; perder la descripción no aporta nada |
 | DP4 | Tipo "foto" solo acepta imágenes | La marca existe en el tipo pero no se usa al subir | Solo .jpg, .jpeg y .png | Le da sentido a la marca |
-| DP5 | Lista general de extensiones | 6 extensiones | 16 (agrega .png, .doc, .xls, .xml, .zip, .rar, .7z) | Contabilidad maneja XML de facturas y soportes comprimidos. El impacto es bajo |
+| DP5 | Lista general de extensiones | 6 extensiones | 13 (agrega .png, .doc, .xls, .xml, .zip, .rar, .7z) | Contabilidad maneja XML de facturas y soportes comprimidos. El impacto es bajo |
 
 ### Consecuencias
 

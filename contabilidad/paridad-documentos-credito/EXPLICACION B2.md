@@ -105,7 +105,7 @@ No cambia la regla de agregar combos ni el permiso de eliminar archivos. No toca
 
 ### Parte de código (Tarea 2)
 
-Compilado el 2026-10-16 (0 errores). La prueba manual está en la Tarea 3 del plan y **no se ha corrido todavía**.
+Compilado el 2026-10-16 (0 errores). La prueba manual está en la Tarea 3 del plan: M1 se corrió el 2026-10-16 (usuario con permiso agrega y edita); M2 a M5 **no se han corrido todavía**.
 
 | Paso | Para qué existe | Qué se rompe si se quita |
 |---|---|---|

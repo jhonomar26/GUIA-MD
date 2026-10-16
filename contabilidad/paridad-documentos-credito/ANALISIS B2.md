@@ -1,5 +1,7 @@
 # Análisis B2: permiso para agregar y editar documentos individuales
 
+> **Historia.** Análisis de B2, implementado en `44b917826`. Vigente: [R15 de ciclo-documentos](../ciclo-documentos/ANALISIS.md#reglas-vigentes).
+
 Brecha B2 del `REQUERIMIENTO.md`. Lectura de código del 2026-10-15; nada se ejecutó en la app.
 
 ## Qué ya existe

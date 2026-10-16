@@ -85,6 +85,19 @@ La numeración se conserva de `expediente-virtual-carga` para no romper las refe
 - **H3. El reemplazo de único es un camino muerto.** El servidor acepta una segunda carga si el tipo es único y desactiva el archivo anterior (mismas líneas que H2), pero ninguna pantalla ofrece un documento ya cargado. En crédito pasa lo mismo. → C2 lo quita.
 - **H4. Comentarios con numeración vieja.** El código cita "R13" para "pendiente = estado PENDIENTE" (`DocumentoContableArchivoWebApiController.cs:258`), pero R13 es el permiso de combos. Ese método lo reescribe [consultas-documentos-sql](../consultas-documentos-sql/); se corrige ahí.
 
+## Detectado en la auditoría de docs (2026-10-16), fuera de C1-C3
+
+No entran en esta feature hasta que se decida. Se anotan para no perderlos.
+
+| # | Qué | Evidencia |
+|---|---|---|
+| A1 | El controlador de archivos contables conserva el `Delete` generado: borra la relación sin constancia ni historial. Ninguna pantalla lo llama | `DocumentoContableArchivoWebApiController.cs:84` |
+| A2 | `FirmaArchivoContableWebApiController` es un CRUD generado sin uso | [firma-documentos-contables](../firma-documentos-contables/IMPLEMENTACION.md) |
+| A3 | Un combo "para firmar" puede recibir un tipo sin firma: solo lo impide la pantalla | [firma-documentos-contables](../firma-documentos-contables/README.md) |
+| A4 | Pruebas manuales sin evidencia: carga (V, E, P, C, T), B1 M1-M4, B2 M2-M5, B3-B6 | `expediente-virtual-carga/TAREAS.md`, [paridad IMPLEMENTACION](../paridad-documentos-credito/IMPLEMENTACION.md) |
+| A5 | El commit `b89d6bcd0` (refactor del formato de eliminación) no está documentado en ninguna nota | `git show b89d6bcd0` |
+| A6 | `VistaArchivosEliminadosWebApiController` y su ViewModel, generados en `1510e9b5c`, no los usa ninguna pantalla | [paridad IMPLEMENTACION](../paridad-documentos-credito/IMPLEMENTACION.md) |
+
 ## Preguntas abiertas
 
 - **P1. Vencidos de un documento inactivo.** Crédito los muestra en Vencidos; contabilidad no, porque filtra los documentos activos. Por el criterio correspondería alinearlo, pero el impacto es mínimo. ¿Se alinea o se anota como DP6?

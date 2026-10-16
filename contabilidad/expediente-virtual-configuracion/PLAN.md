@@ -1,6 +1,8 @@
 # Plan — Configuración de documentos contables igual a la de crédito
 
-> **Estado: planificado. Ninguna fase implementada.**
+> **Historia.** Plan ya ejecutado; el anexo técnico refleja lo que se planeó, no necesariamente lo que quedó. Vigente: [FLUJO.md](./FLUJO.md).
+
+> **Estado: F0 a F3 implementadas en código.** Pendiente: el filtro "formato contable" del selector de plantillas (la tabla de formatos aún no tiene esa marca) y el script que marca las plantillas contables (P7'). No hay `IMPLEMENTACION.md` ni evidencia de prueba en navegador.
 > Pedido y alcance: [`REQUERIMIENTO.md`](./REQUERIMIENTO.md). Brecha, reglas, hallazgos y decisiones: [`ANALISIS.md`](./ANALISIS.md).
 
 ## En una frase

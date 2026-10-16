@@ -1,5 +1,7 @@
  # Firma electrónica de documentos contables — Plan de implementación
 
+> **Historia.** Plan ejecutado; el código difiere en cuatro puntos: el controlador usa `[Log]` en vez de `finally` (T3.4), se agregó `ValidarEsPdf` (T3.3), la vista tiene un 4.º campo `Esanuladoelectronicamente` (T4.1) y la rama real fue `feature/expediente-virtual-carga-firmas`. Vigente: [IMPLEMENTACION.md](./IMPLEMENTACION.md).
+
 > **Para agentes:** SUB-SKILL REQUERIDA: superpowers:subagent-driven-development (recomendado) o superpowers:executing-plans, tarea por tarea. Los pasos usan casillas (`- [ ]`).
 
 **Objetivo:** firmar con VozData, a mano y desde la web, los documentos cargados en un comprobante contable cuyo tipo tenga "Firma electrónica", igual que crédito.

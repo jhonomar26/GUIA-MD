@@ -1,6 +1,6 @@
 # Firma electrónica de documentos contables: cómo funciona
 
-> Explicación para entender el flujo. **Parte 1: lógica de negocio** (sin código). La **Parte 2: código** se agrega después.
+> Explicación para entender el flujo, en términos de negocio (sin código). El código, archivo por archivo, está en [IMPLEMENTACION.md](./IMPLEMENTACION.md).
 
 ## 1. La idea en una frase
 
@@ -21,8 +21,9 @@ Es lo mismo que ya hace crédito, con una diferencia: aquí hay **un solo firman
 
 1. El **tipo de documento** está marcado con "Firma electrónica".
 2. El documento ya está **cargado** en el comprobante, es decir, tiene un archivo.
-3. El documento solicitado tiene **tercero asignado**. Se copia del comprobante cuando el documento se crea, sea por combo, a mano o al recrear uno eliminado. Es lo que hicimos en la Tarea 2.
-4. El módulo de firmas está **habilitado** (hay credenciales activas de VozData).
+3. El archivo es **PDF**. VozData solo firma PDF. Al subir, un tipo con firma solo acepta `.pdf`; al abrir la pantalla de firma se vuelve a revisar.
+4. El documento solicitado tiene **tercero asignado**. Se copia del comprobante cuando el documento se crea, sea por combo, a mano o al recrear uno eliminado. Es lo que hicimos en la Tarea 2.
+5. El módulo de firmas está **habilitado** (hay credenciales activas de VozData).
 
 Si falta algo, la pantalla avisa con un mensaje claro y no deja firmar.
 
@@ -111,6 +112,7 @@ El plazo vencido se detecta **al abrir la pantalla**, no por sí solo. Si venci�
 
 | Caso | Respuesta |
 |---|---|
+| El archivo no es PDF (por ejemplo, cargado antes de exigir PDF) | Mensaje: "Solo se pueden firmar archivos PDF. Cargue el documento en formato PDF". |
 | El documento solicitado no tiene tercero (pedido antes del script) | Mensaje: "El documento solicitado no tiene tercero asignado". |
 | El archivo no es de un documento contable (por ejemplo, uno de crédito) | Mensaje: "El archivo no pertenece a un documento contable". |
 | El módulo de firmas está deshabilitado | Mensaje: "Modulo de firmas no habilitado". |
@@ -142,8 +144,9 @@ En la grilla de documentos cargados (y en la de remotos/FTP), cada fila tiene un
 |---|---|
 | Su tipo **no** exige firma electrónica | No aparece |
 | Su tipo exige firma y **no se ha enviado** | Aparece, ícono normal |
-| Enviado, **esperando que el tercero firme** | Aparece, ícono inactivo |
-| **Ya firmado** | Aparece, ícono activo |
+| Enviado, **esperando que el tercero firme** | Aparece, ícono naranja |
+| **Ya firmado** | Aparece, ícono verde |
+| La firma más reciente quedó **anulada o vencida** | Aparece, ícono rojo. Se puede enviar de nuevo |
 
 Al pulsarlo se abre la pantalla de firma (la de la Tarea 3) en una **pestaña nueva**, ya con el archivo de esa fila.
 
@@ -151,20 +154,22 @@ Al pulsarlo se abre la pantalla de firma (la de la Tarea 3) en una **pestaña nu
 
 ```mermaid
 flowchart LR
-    A[Vista de cargados<br/>Tarea 1] -->|3 datos nuevos| B[Grilla]
+    A[Vista de cargados<br/>Tarea 1] -->|4 datos nuevos| B[Grilla]
     B --> C{¿Tipo exige firma?}
     C -- No --> D[Sin botón]
     C -- Sí --> E{¿Estado de la firma?}
     E -- Sin enviar --> F[Ícono normal]
-    E -- Esperando --> G[Ícono inactivo]
-    E -- Firmado --> H[Ícono activo]
-    F & G & H -->|clic| I[Pantalla de firma<br/>en pestaña nueva]
+    E -- Esperando --> G[Ícono naranja]
+    E -- Firmado --> H[Ícono verde]
+    E -- Anulada o vencida --> J[Ícono rojo]
+    F & G & H & J -->|clic| I[Pantalla de firma<br/>en pestaña nueva]
 ```
 
-Los 3 datos nuevos que la grilla necesita saber de cada documento:
+Los 4 datos nuevos que la grilla necesita saber de cada documento:
 1. si su tipo exige **firma electrónica**;
 2. si ya está **firmado**;
-3. cuál es el **id de la firma más reciente** (por si hay una anulada y otra nueva, cuenta la última).
+3. cuál es el **id de la firma más reciente** (por si hay una anulada y otra nueva, cuenta la última);
+4. si esa firma más reciente quedó **anulada**.
 
 La vista de la base de datos ya los calcula (Tarea 1). Esta tarea solo hace que **lleguen hasta la pantalla**.
 
@@ -177,9 +182,3 @@ La vista de la base de datos ya los calcula (Tarea 1). Esta tarea solo hace que 
 ### Punto a vigilar
 
 La vista de la grilla es un archivo con codificación antigua (ISO-8859). Se edita con cuidado para **no dañar las tildes**.
-
----
-
-## Parte 2: código
-
-*(pendiente)*

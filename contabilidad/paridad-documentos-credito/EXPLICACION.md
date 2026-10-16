@@ -1,5 +1,7 @@
 # Explicación: qué falta y por qué
 
+Cubre las brechas **B4, B5 y B6**. B2 tiene su propia explicación en [EXPLICACION B2.md](EXPLICACION%20B2.md).
+
 ## Estado real de las brechas
 
 Al revisar la rama, tres brechas del requerimiento ya estaban hechas:
@@ -8,7 +10,7 @@ Al revisar la rama, tres brechas del requerimiento ya estaban hechas:
 - **B2** permiso para documentos individuales: commit `44b917826`.
 - **B3** ver archivo solo si es contable: commit `44b917826`.
 
-Quedan **B4, B5 y B6**. Todas viven en `_GestionDocumentos.cshtml`, que es la pantalla de gestión de documentos contables.
+**B4, B5 y B6** se hicieron después, en el commit `7955091af`. Todas viven en `_GestionDocumentos.cshtml`, que es la pantalla de gestión de documentos contables. Lo que quedó construido está en [IMPLEMENTACION.md](./IMPLEMENTACION.md).
 
 ## B4: editar la descripción de un archivo cargado
 
@@ -17,7 +19,7 @@ Quedan **B4, B5 y B6**. Todas viven en `_GestionDocumentos.cshtml`, que es la pa
 **En contabilidad:** la grilla es de solo lectura. La columna `Observaciones` ya muestra la descripción del archivo (`a.descripcion` en la vista), así que no hay que tocar la BD.
 
 **Qué se hace:**
-1. Acción nueva `ActualizarArchivo` en `DocumentoContableArchivoWebApiController`. Antes de editar, comprueba que el archivo esté vinculado a un documento contable. Así no se puede editar un archivo de crédito por esta ruta.
+1. Acción nueva `ActualizarArchivo` en `VistaDocumentoContableCargadosWebApiController`, el mismo servicio que ya alimenta las grillas Cargados y Remoto. Antes de editar, comprueba que el archivo esté vinculado a un documento contable. Así no se puede editar un archivo de crédito por esta ruta.
 2. Grillas Cargados y Remoto: edición en línea, solo la columna `Observaciones`.
 
 **Qué NO se hace:** `Esactivo`. En contabilidad, un archivo "activo" lo decide `DocumentoContableCargado.Esactivo` y el estado de la solicitud. Cambiar `generales_archivo.esactivo` no movería nada: el archivo seguiría en Cargados y el documento no volvería a Pendientes.

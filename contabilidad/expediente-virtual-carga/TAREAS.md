@@ -1,5 +1,7 @@
 # Tareas — Agregar más combos en comprobante contable (R13)
 
+> **Historia.** Plan técnico ejecutado: Tasks 1-6 en código; las casillas de prueba manual siguen sin evidencia. Vigente: [ciclo-documentos/ANALISIS.md](../ciclo-documentos/ANALISIS.md) e [IMPLEMENTACION.md](./IMPLEMENTACION.md).
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Un comprobante contable acepta un solo combo, salvo que el usuario tenga la acción "Agregar Mas Combos" (igual que crédito), y agregar un combo queda en una sola transacción.

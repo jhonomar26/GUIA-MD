@@ -1,5 +1,7 @@
 # Requerimiento: cerrar brechas de documentos contables frente a crédito
 
+> **Historia.** Pedido y brechas tal como se encontraron el 2026-10-14; B1-B6 ya están implementadas ([IMPLEMENTACION.md](./IMPLEMENTACION.md)). Vigente: [ciclo-documentos](../ciclo-documentos/).
+
 ## Pedido original
 
 > revisar si hay algo pendiente en documentos que esté en crédito y no esté en contabilidad; la mayoría de funcionalidades ya estaban
@@ -19,7 +21,7 @@ Contabilidad ya cubre: pestañas Cargados, Remoto, Pendientes y Vencidos; subida
 | B1  | Constancia de eliminación sin detalle                                                  | `ConstanciaEliminacionArchivosActorNegocio.cs:28-39`                               | Crea la constancia (`DocumentoContableArchivoActorNegocio.cs:198`), pero el detalle solo incluye Terceros, Crédito y CRM: sale vacío                                |
 | B2  | Permiso para agregar documentos individuales (sin combo)                               | `DocumentoCreditoActorNegocioViewModel.cs:94-107`                                  | `DocumentoContableCombo/Index.cshtml:211-212` deja `AllowAdding`/`AllowUpdating` en true; `DocumentoContableSolicitadoWebApiController.Post/Put` no validan permiso |
 | B3  | Ver archivo desde la pestaña Cargados de combos                                        | Acción propia de crédito                                                           | `DocumentoContableCombo/Index.cshtml:397-404` usa `CargaArchivos/VisualizarArchivo`, que no valida que el archivo sea contable                                      |
-| B4  | Editar un archivo ya cargado (descripción, activo) con usuario y fecha de modificación | `MostrarArchivos.cshtml:396-445`, `VistaCreditoArchivosWebApiController.cs:70-101` | Grillas de solo lectura (`_GestionDocumentos.cshtml:49-62`). `DocumentoContableArchivoWebApiController.Put` existe sin uso en la UI                                 |
+| B4  | Editar la descripción de un archivo ya cargado, con usuario y fecha de modificación (activo no aplica, ver [EXPLICACION.md](./EXPLICACION.md)) | `MostrarArchivos.cshtml:396-445`, `VistaCreditoArchivosWebApiController.cs:70-101` | Grillas de solo lectura (`_GestionDocumentos.cshtml:49-62`). `DocumentoContableArchivoWebApiController.Put` existe sin uso en la UI                                 |
 | B5  | Pestaña Vencidos completa                                                              | `MostrarArchivos.cshtml:567-621`                                                   | Solo nombre, vencimiento y "Ver" (`_GestionDocumentos.cshtml:125-154`)                                                                                              |
 | B6  | Columna "Obligatorio" en Pendientes                                                    | `MostrarArchivos.cshtml:561`                                                       | Solo el `*` en el selector de subida                                                                                                                                |
 
@@ -32,16 +34,16 @@ Contabilidad ya cubre: pestañas Cargados, Remoto, Pendientes y Vencidos; subida
 
 ## Preguntas abiertas
 
-- B4 y B5: ¿el usuario contable debe poder editar y activar/inactivar archivos, o basta con verlos? ¿Con qué permiso?
-- B2: ¿reutiliza el permiso de combos o es uno nuevo (como "Agregar Mas Combos")?
-- B1: ¿el PDF de la constancia ya cubre contabilidad? No se verificó.
+- B4 y B5: ¿el usuario contable debe poder editar y activar/inactivar archivos, o basta con verlos? ¿Con qué permiso? **Respondida:** B4 edita solo la descripción, sin permiso, igual que crédito. B5 es solo lectura ([EXPLICACION.md](./EXPLICACION.md)).
+- B2: ¿reutiliza el permiso de combos o es uno nuevo (como "Agregar Mas Combos")? **Respondida:** permiso nuevo ([ANALISIS B2.md](ANALISIS%20B2.md), "Decisión tomada").
+- B1: ¿el PDF de la constancia ya cubre contabilidad? No se verificó. **Sigue abierta:** es la P3 de [PLAN B1.md](PLAN%20B1.md).
 
 ## Criterios de aceptación
 
 - **Dado** que se eliminan archivos de un documento contable, **cuando** se consulta el detalle de la constancia, **entonces** muestra los archivos eliminados.
 - **Dado** un usuario sin el permiso, **cuando** intenta agregar o editar un documento solicitado a mano, **entonces** la pantalla lo impide y el WebApi responde con error.
 - **Dado** un archivo de crédito, **cuando** se pide verlo desde la pantalla contable, **entonces** se rechaza.
-- **Dado** un archivo cargado, **cuando** el usuario con permiso edita su descripción o estado, **entonces** queda guardado con su usuario y fecha.
+- **Dado** un archivo cargado, **cuando** el usuario edita su descripción, **entonces** queda guardada con su usuario y fecha.
 - **Dado** un documento vencido, **cuando** se abre la pestaña Vencidos, **entonces** muestra los mismos datos que crédito, sin codeudores ni tercero por documento.
 - **Dado** un documento pendiente, **cuando** se abre Pendientes, **entonces** se ve si es obligatorio.
 - **Dado** que se toca código compartido (constancias, visualización), **cuando** se usa crédito, tercero o CRM, **entonces** funciona igual que antes.

@@ -1,5 +1,7 @@
 # Análisis: brechas de documentos contables frente a crédito
 
+> **Historia.** Análisis de B1, implementado en `cedcba97c`. Vigente: [IMPLEMENTACION.md](./IMPLEMENTACION.md).
+
 Se va completando brecha por brecha. Lo de aquí es lectura de código (2026-10-14); nada se ejecutó en la app.
 
 ## B1. Constancia de eliminación sin detalle
@@ -43,7 +45,7 @@ Cada dominio tiene su método `ArchivosCarpetaVirtual<Dominio>(rutas)` que devue
 
 Decisión (2026-10-14): en vez de armar el SQL a mano con Dapper, **una vista de base de datos** y su entidad + Actor generados con WFAGenerarDao, igual que `contabilidad_vistadocumentocontablecargados`. Los joins quedan en la base y el código solo filtra por constancia.
 
-1. Script SQL `7-vista-archivos-eliminados-contabilidad.sql` (carpeta `scratch`, mismo estilo que 1-6): vista `contabilidad_vistaarchivoseliminados` con `idconstanciaeliminacion`, tercero, tipo de documento, descripciones, archivo, fecha y usuario de cargue. Sin `BEGIN/COMMIT`, idempotente.
+1. Script SQL `8-vista-archivos-eliminados-contabilidad.sql` (carpeta `scratch`, mismo estilo que 1-7; el 7 ya estaba ocupado): vista `contabilidad_vistaarchivoseliminados` con `idconstanciaeliminacion`, tercero, tipo de documento, descripciones, archivo, fecha y usuario de cargue. Sin `BEGIN/COMMIT`, idempotente.
 2. Entidad y Actor de la vista: generar con `WFAGenerarDao.exe dapper --tabla contabilidad_vistaarchivoseliminados --salida %TEMP%\gen`, difear y copiar `{Entidad}.cs` y `{Entidad}Actor.cs` a `Blip.Data/Contabilidad/` (según `siian-plantillas-generadas`). Registrar en `Data.csproj`. El resto de la familia (ViewModel, controladores, vistas) no se genera.
 3. Un método corto que convierte las filas de la vista a `ContenidoCarpetaVirtualViewModel` con `Tipocarpetavirtual = "Contabilidad"`, y se suma a los dos sitios: el acta (`ObtenerValoresParametrosEliminacionArchivos`) y `ConstanciaEliminacionArchivosActorNegocio.ContenidoCarpetasVirtuales`.
 

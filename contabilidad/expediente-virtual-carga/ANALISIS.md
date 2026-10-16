@@ -1,5 +1,7 @@
 # Análisis — Cómo se manejan hoy los documentos de un comprobante contable, frente a crédito
 
+> **Historia.** Secciones 2 a 5 superadas; se conserva por el mapa de tablas (1) y "obligatorio" (3). Vigente: [ciclo-documentos/ANALISIS.md](../ciclo-documentos/ANALISIS.md).
+
 > Estado: **decisiones tomadas** (sección 5). Las secciones 1 a 4 describen el sistema actual; la 5 fija qué se hace en contabilidad.
 > Plan por fases: [`PLAN.md`](./PLAN.md). Configuración de documentos (la parte anterior): [`../expediente-virtual-configuracion/ANALISIS.md`](../expediente-virtual-configuracion/ANALISIS.md).
 > Verificado contra el código y la base demo el 2026-10-01 (en demo ya está aplicado el cambio de "seleccionado" a "obligatorio").

@@ -1,5 +1,7 @@
 # B2: permiso para agregar y editar documentos individuales — Plan de implementación
 
+> **Historia.** Plan ejecutado (código en `44b917826`); las casillas sin tildar siguen pendientes. Vigente: [IMPLEMENTACION.md](./IMPLEMENTACION.md).
+
 > **Para agentes:** SUB-SKILL REQUERIDA: superpowers:subagent-driven-development (recomendado) o superpowers:executing-plans, tarea por tarea. Los pasos usan casillas (`- [ ]`).
 
 **Objetivo:** que agregar y editar un documento solicitado a mano en contabilidad exija un permiso propio, en la pantalla y en el WebApi.

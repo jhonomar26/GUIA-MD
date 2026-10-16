@@ -1,5 +1,7 @@
 # Análisis — Firma electrónica de documentos contables igual a crédito
 
+> **Historia.** Análisis previo a programar; la firma exige PDF (R6 de ciclo-documentos), y aquí R1-R7 son una numeración propia, distinta de R1-R17 de ciclo-documentos. Vigente: [ciclo-documentos/ANALISIS.md](../ciclo-documentos/ANALISIS.md).
+
 > Estado: **validado**. Explica qué se va a hacer, sin código.
 > Pedido original: [`REQUERIMIENTO.md`](./REQUERIMIENTO.md). Decisión de enfoque: [`ADR.md`](./ADR.md).
 

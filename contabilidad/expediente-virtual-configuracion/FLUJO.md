@@ -1,6 +1,6 @@
 # Flujo — cómo funciona la configuración de documentos contables
 
-> Explicación de negocio, sin código. Para el detalle de reglas: [`PLAN.md`](./PLAN.md). Para el porqué de cada decisión: [`ANALISIS.md`](./ANALISIS.md).
+> Explicación de negocio, sin código. Para el detalle de reglas: [`ciclo-documentos/ANALISIS.md`](../ciclo-documentos/ANALISIS.md). Para el porqué de cada decisión: [`ANALISIS.md`](./ANALISIS.md).
 
 ## La idea en una frase
 
@@ -87,7 +87,15 @@ Paso a paso:
 
 ## 6. Qué extensiones se aceptan
 
-Se **quitaron los tipos de soporte**: antes cada tipo de documento decidía qué extensiones aceptaba, y uno sin configurar rechazaba todo. Ahora hay **una lista fija para todos**: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, xml, zip, rar, 7z, txt. Igual que crédito, que tampoco configura esto por tipo.
+Se **quitaron los tipos de soporte**: antes cada tipo de documento decidía qué extensiones aceptaba, y uno sin configurar rechazaba todo. Ahora la extensión depende de las marcas del tipo de documento:
+
+| Si el tipo es... | Se acepta |
+|---|---|
+| Firma electrónica | Solo pdf |
+| Foto | Solo imágenes: jpg, jpeg, png |
+| Ninguno de los dos | La lista general: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, xml, zip, rar, 7z, txt |
+
+Crédito tampoco configura esto por tipo. Detalle en la regla R6 de [`ciclo-documentos/ANALISIS.md`](../ciclo-documentos/ANALISIS.md).
 
 ## 7. Qué está listo y qué no
 
@@ -99,6 +107,7 @@ Se **quitaron los tipos de soporte**: antes cada tipo de documento decidía qué
 | Pantalla igual a crédito | Escrita, falta probar en navegador |
 | Los combos y documentos activos se respetan en el comprobante | Escrito, falta probar |
 | Elegir solo plantillas "formato contable" | **Pendiente** (falta la marca en las plantillas) |
-| **Usar** las banderas de firma, foto y plantillas al cargar un documento | **Fuera de alcance**: hoy se guardan, pero nadie las lee |
+| **Usar** las banderas de firma y foto al cargar un documento | Hecho: limitan las extensiones (sección 6) |
+| **Usar** las plantillas al cargar un documento | **Fuera de alcance**: se guardan, pero nadie las lee |
 
-Por eso, marcar "Firma electrónica" o "Foto" todavía **no cambia** cómo se sube un documento. Solo deja la configuración lista para cuando se construya esa parte.
+Por eso, marcar "Firma electrónica" o "Foto" **sí cambia** qué archivos se pueden subir (sección 6). Las plantillas, en cambio, solo dejan la configuración lista para cuando se construya esa parte.

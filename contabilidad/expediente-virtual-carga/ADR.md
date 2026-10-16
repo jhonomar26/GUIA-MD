@@ -1,5 +1,7 @@
 # ADR — Carga de documentos en comprobantes contables
 
+> **Historia.** Decisión implementada; la regla vigente está en R2 y R13. Vigente: [ciclo-documentos/ANALISIS.md](../ciclo-documentos/ANALISIS.md).
+
 ## ADR-001: Agregar combos igual que crédito (repetidos y permiso por documentos)
 
 **Estado:** Aceptado. Cambia las reglas R2 y R13 de [`PLAN.md`](./PLAN.md) y la observación O7 de [`ANALISIS.md`](./ANALISIS.md).

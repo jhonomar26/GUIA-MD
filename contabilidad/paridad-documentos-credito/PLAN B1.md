@@ -1,5 +1,7 @@
 # B1: detalle de la constancia de eliminación para documentos contables — Plan de implementación
 
+> **Historia.** Plan ejecutado (código en `1510e9b5c` y `cedcba97c`); las casillas sin tildar siguen pendientes. Vigente: [IMPLEMENTACION.md](./IMPLEMENTACION.md).
+
 > **Para agentes:** SUB-SKILL REQUERIDA: superpowers:subagent-driven-development (recomendado) o superpowers:executing-plans, tarea por tarea. Los pasos usan casillas (`- [ ]`).
 
 **Objetivo:** que el acta de eliminación y el detalle de una constancia listen los archivos contables eliminados, como ya hacen con Terceros, Crédito y CRM.
@@ -35,7 +37,7 @@ Se resuelven **antes** de la tarea que las usa. Cada una lleva mi recomendación
 | P1 | En el acta de eliminación, ¿se muestra el número del comprobante? Hoy la tabla del acta solo tiene Carpeta, Tercero, Tipo documento, Descripción, Fecha, Usuario | No: igual que crédito, y la plantilla no tiene columna para eso | Tarea 1 (columnas de la vista) | ✅ No; mejora futura para todos los módulos (usuario, 2026-10-15) |
 | P2 | Un documento solicitado viejo puede no tener tercero guardado (pedido antes del script 6). ¿El acta muestra el tercero del comprobante en ese caso? | Sí: `COALESCE(solicitado.idtercero, comprobante.idtercero)` | Tarea 1 | ✅ Sí, `COALESCE` (usuario, 2026-10-15) |
 | P3 | ¿La plantilla guardada del acta (formato "eliminación de archivos") depende de algo propio de crédito? No se pudo ver sin la base | Se revisa en Tarea 4 con el acta real; si falla, se vuelve aquí | Tarea 4 | ⬜ por verificar |
-| P4 | ¿Se agrega también CRM detalle a `ConstanciaEliminacionArchivosActorNegocio.ContenidoCarpetasVirtuales`? Le falta hoy, pero no es de contabilidad y nadie llama a ese método | No: fuera de alcance, queda anotado | — | ⬜ abierta |
+| P4 | ¿Se agrega también CRM detalle a `ConstanciaEliminacionArchivosActorNegocio.ContenidoCarpetasVirtuales`? Le falta hoy, pero no es de contabilidad y nadie llama a ese método | No: fuera de alcance, queda anotado | — | ✅ No; fuera de alcance ([ANALISIS B1.md](ANALISIS%20B1.md), "Lo que no entra") |
 | P5 | ¿Se trabaja en la rama actual o en una nueva? | La actual: el cambio es pequeño y la feature de firmas ya está cerrada | Tarea 1 | ✅ Rama renombrada a `feature/contabilidad-detalle-constancia-eliminacion` (usuario, 2026-10-15) |
 
 ## Foco de revisión

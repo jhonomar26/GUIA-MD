@@ -2,7 +2,7 @@
 
 > **Reglas vigentes:** [`ciclo-documentos/ANALISIS.md`](../ciclo-documentos/ANALISIS.md). La tabla R1-R14 de abajo queda como historia.
 
-> Decisiones de negocio: [`ANALISIS.md`](./ANALISIS.md). Detalle anterior: [`PLAN.anterior.md`](./PLAN.anterior.md). Tareas técnicas: [`TAREAS.md`](./TAREAS.md).
+> Decisiones de negocio: [`ANALISIS.md`](./ANALISIS.md). Tareas técnicas: [`TAREAS.md`](./TAREAS.md).
 
 ## Qué se hace
 
@@ -35,8 +35,8 @@ Las pantallas de **solicitud** (`Views/DocumentoContableCombo/Index.cshtml`) y *
 | F1   | Base y servidor: obligatorio, combos, carga sin marcar, sin borrado, reemplazo de único                                                                                                | ✅ Cerrada (commits 0261e43, befae91, 8b6d593, ce574b5, ccedea7) |
 | F2   | Solicitud: encabezado, agregar combo con confirmación, grillas sin borrar, nombres resueltos, exportar                                                                                 | ✅ Cerrada (commits 0261e43, befae91, 8b6d593, ce574b5, ccedea7) |
 | F3   | Formulario de carga: ruta, extensiones, fecha manual, único/obligatorio visibles, selector de pendientes (más únicos cargados), botón bloqueado al subir, quitar la función de crédito | ✅ Cerrada (commits 0261e43, befae91, 8b6d593, ce574b5, ccedea7) |
-| F3.1 | Combos como crédito: el mismo combo se repite y el permiso se pide si ya hay documentos (R2, R13, ADR-001). Script de base que va a producción                                         | ⬜                                                               |
-| F4   | Pestañas Cargados, Cargados (Remoto), Pendientes, Vencidos; ver archivo; exportar; eliminar con "¿recrear?"                                                                            | 🟡 Código hecho y compila; falta probar en la app (Task 6)                                                               |
+| F3.1 | Combos como crédito: el mismo combo se repite y el permiso se pide si ya hay documentos (R2, R13, ADR-001). Script de base que va a producción                                         | ✅ Código hecho (commit c468c13e1)                                |
+| F4   | Pestañas Cargados, Cargados (Remoto), Pendientes, Vencidos; ver archivo; exportar; eliminar con "¿recrear?"                                                                            | 🟡 Código hecho; prueba en la app sin evidencia (Task 6)                                                               |
 | F5   | Regresión, entregable de scripts, merge, producción, `IMPLEMENTACION.md`, limpiar datos de prueba                                                                                      | ⬜                                                               |
 
 Por fase: implementar, build sin errores y sin tildes rotas, probar en la app, y commit solo cuando se pida.

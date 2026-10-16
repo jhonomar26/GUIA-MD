@@ -1,5 +1,7 @@
 # Requerimiento: firma electrónica de documentos contables igual a crédito
 
+> **Historia.** Pedido original; feature cerrada el 2026-10-07. Vigente: [IMPLEMENTACION.md](./IMPLEMENTACION.md).
+
 ## Pedido original
 
 > lo que necesitamos es replicar lo que ya existe en firmas para los documentos de credito, pero ahora con los documentos de contabilidad

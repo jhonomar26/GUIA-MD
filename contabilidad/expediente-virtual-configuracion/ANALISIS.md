@@ -1,5 +1,7 @@
 # Análisis — Configuración de documentos contables igual a la de crédito
 
+> **Historia.** La brecha que describe ya se cerró en código y algunos puntos cambiaron al construir (por ejemplo, se quitaron los tipos de soporte). Vigente: [FLUJO.md](./FLUJO.md) para la configuración y [ciclo-documentos/ANALISIS.md](../ciclo-documentos/ANALISIS.md) para la carga.
+
 > Estado: **validado** (decisiones en la sección 7). Explica qué se va a hacer y cómo, sin código.
 > Pedido original: [`REQUERIMIENTO.md`](./REQUERIMIENTO.md). Plan por fases: [`PLAN.md`](./PLAN.md).
 
