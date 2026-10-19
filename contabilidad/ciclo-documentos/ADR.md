@@ -1,6 +1,6 @@
 # ADR — Ciclo de vida de los documentos contables
 
-## ADR-001: Crédito es la fuente de verdad, con cinco diferencias a propósito
+## ADR-001: Crédito es la fuente de verdad, con seis diferencias a propósito
 
 **Estado:** Aceptado (2026-10-16). Reemplaza como referencia vigente a las reglas R1-R14 de [`expediente-virtual-carga/PLAN.md`](../expediente-virtual-carga/PLAN.md), que quedan como historia.
 
@@ -19,6 +19,7 @@ Contabilidad se comporta como crédito. Lo que crédito no tiene se quita, salvo
 | DP3 | Recrear copia la descripción y el obligatorio | El nuevo documento nace con descripción vacía y obligatorio | El nuevo copia ambos datos del eliminado | El documento recreado es el mismo pedido; perder la descripción no aporta nada |
 | DP4 | Tipo "foto" solo acepta imágenes | La marca existe en el tipo pero no se usa al subir | Solo .jpg, .jpeg y .png | Le da sentido a la marca |
 | DP5 | Lista general de extensiones | 6 extensiones | 13 (agrega .png, .doc, .xls, .xml, .zip, .rar, .7z) | Contabilidad maneja XML de facturas y soportes comprimidos. El impacto es bajo |
+| DP6 | Vencidos de un documento inactivo | Los muestra en Vencidos | No los muestra: Vencidos solo lista documentos activos | Decidido el 2026-10-19: un documento inactivo ya no se persigue. El impacto es mínimo |
 
 ### Consecuencias
 

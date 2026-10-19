@@ -85,7 +85,7 @@ flowchart TD
     M --> N
 ```
 
-**Camino muerto:** la rama "tipo único con archivo activo" (reemplazo de único) sigue en `ValidarDocumentoSolicitadoYTipo` y `RegistrarArchivoCargado`, pero ninguna pantalla la ofrece. La misma rama "ya había carga" deja cargar sobre un eliminado por petición directa. Las dos se quitan con C2 de [ciclo-documentos](../ciclo-documentos/REQUERIMIENTO.md).
+**Solo pendientes (C2):** `ValidarDocumentoSolicitadoYTipo` rechaza todo documento cuyo estado no sea PENDIENTE, y `RegistrarArchivoCargado` ya no reemplaza el archivo de un único. Con eso una petición directa no puede cargar sobre un eliminado ni sobre un cargado. Ver [ciclo-documentos](../ciclo-documentos/REQUERIMIENTO.md).
 
 ## 4. Pestañas de carga 🟡
 
@@ -117,4 +117,4 @@ Ver [`ciclo-documentos/ANALISIS.md`](../ciclo-documentos/ANALISIS.md). Lo guarda
 |---|---|
 | Pruebas manuales de [`TAREAS.md`](./TAREAS.md) (V, E, P, C, T) | 🟡 sin evidencia |
 | Repetir un tipo único | Decidido: no se repite (R11, DP2 de [ciclo-documentos/ADR.md](../ciclo-documentos/ADR.md)) |
-| C1 (archivo incompleto) y C2 (solo cargar pendientes) | ⬜ [ciclo-documentos](../ciclo-documentos/REQUERIMIENTO.md) |
+| C1 (archivo incompleto) y C2 (solo cargar pendientes) | ✅ Hechos, sin pruebas manuales por decisión (cambios pequeños) ([ciclo-documentos](../ciclo-documentos/REQUERIMIENTO.md)) |

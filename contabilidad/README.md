@@ -9,4 +9,4 @@ Corresponde a `Negocio/Contabilidad/` en el repo SIIAN.
 | [firma-documentos-contables](./firma-documentos-contables/) | Firma electrónica (VozData) de documentos cargados en comprobantes, igual a crédito (implementado y probado) |
 | [paridad-documentos-credito](./paridad-documentos-credito/) | Brechas de documentos contables frente a crédito: constancia, permisos, editar archivos, vencidos (B1-B6 implementadas; pruebas manuales pendientes) |
 | [consultas-documentos-sql](./consultas-documentos-sql/) | Pasar a SQL los filtros LINQ sobre tablas completas en `DocumentoContableArchivoWebApiController` y borrar los métodos sin uso (plan escrito) |
-| [ciclo-documentos](./ciclo-documentos/) | Estados y reglas vigentes de los documentos contables alineados con crédito; **referencia vigente**; incluye el flujo de eliminación (análisis; C1-C2 pendientes) |
+| [ciclo-documentos](./ciclo-documentos/) | Estados y reglas vigentes de los documentos contables alineados con crédito; **referencia vigente**; incluye el flujo de eliminación (C1-C3 hechos, commit `caed5a2b5`) |

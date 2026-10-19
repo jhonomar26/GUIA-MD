@@ -7,7 +7,7 @@ Reglas vigentes de los documentos que se piden y se cargan en un comprobante con
 | Pantalla | Qué hace | Igual que en crédito |
 |---|---|---|
 | Solicitud del comprobante | Agregar combos y documentos sueltos; editar descripción, obligatorio y activo; ver solicitados (con su estado), cargados y eliminados | Sí, salvo DP1 y DP2 |
-| Gestión de documentos | Subir archivo a un pendiente; pestañas Cargados, Cargados (Remoto), Pendientes y Vencidos; editar la descripción de un archivo; eliminar con observación y "¿recrear?" | Sí, salvo DP3 a DP5 |
+| Gestión de documentos | Subir archivo a un pendiente; pestañas Cargados, Cargados (Remoto), Pendientes y Vencidos; editar la descripción de un archivo; eliminar con observación y "¿recrear?" | Sí, salvo DP3 a DP6 |
 | Firma electrónica | Enviar a firmar un documento cargado | Ver [firma-documentos-contables](../firma-documentos-contables/) |
 | Constancia de eliminación | Acta y detalle de lo eliminado | Ver [`ELIMINACION.md`](./ELIMINACION.md) |
 
@@ -71,14 +71,16 @@ La numeración se conserva de `expediente-virtual-carga` para no romper las refe
 | R13 | Si el comprobante ya tiene algún documento pedido, agregar otro combo exige el permiso "Agregar Mas Combos Documento Contable" | Igual |
 | R14 | Eliminar exige el permiso "Eliminar Documentos Cargados Contabilidad" | Igual |
 | R15 | Agregar o editar documentos sueltos exige el permiso "Agregar Documentos Individuales" | Igual (B2 de `paridad-documentos-credito`) |
-| R16 | Un archivo que llega incompleto se rechaza | **Falta en contabilidad** → C1 |
-| R17 | Solo se carga un documento pendiente, aunque la petición llegue directo al servidor | Crédito lo limita en pantalla → C2 |
+| R16 | Un archivo que llega incompleto se rechaza | Igual (C1) |
+| R17 | Solo se carga un documento pendiente, aunque la petición llegue directo al servidor | Crédito lo limita solo en pantalla; contabilidad también en el servidor (C2) |
 
 **Quitadas o movidas:**
 - "Un único se puede volver a cargar y reemplaza al anterior" (antes en R5): no existe en crédito ni en la pantalla contable. Se quita ([ADR-001](./ADR.md)).
 - R10 (cargar en contabilidad no toca archivos de crédito) y R12 (el estado lo pone el servidor): no son reglas de negocio, son garantías técnicas. Siguen cumpliéndose; su lugar es el `PLAN.md`.
 
 ## Hallazgos
+
+> H1 a H3 se corrigieron con C1 y C2. Se dan por cerrados sin pruebas manuales (decisión del 2026-10-19: cambios pequeños). Se dejan como registro de lo que había.
 
 - **H1. Contabilidad no valida que el archivo llegó completo.** Crédito compara los bytes recibidos con el tamaño declarado y rechaza si difieren (`Negocio/Credito/CargaArchivosActorNegocio.cs:396-403`). Contabilidad solo revisa que no esté vacío (`DocumentoContableArchivoController.cs:57`). → C1.
 - **H2. El servidor deja cargar sobre un documento eliminado.** La validación de la subida revisa que el documento esté activo y que no tenga carga activa, pero no su estado. Un eliminado sigue activo y su carga quedó inactiva, así que pasa. Al registrar, se reactiva la carga vieja y el documento vuelve a cargado (`Blip.Data/Contabilidad/DocumentoContableSolicitadoActorNegocio.cs:15-33` y `:36-70`). La pantalla no lo permite porque el selector solo ofrece pendientes; una petición directa sí. → C2.
@@ -100,7 +102,7 @@ No entran en esta feature hasta que se decida. Se anotan para no perderlos.
 
 ## Preguntas abiertas
 
-- **P1. Vencidos de un documento inactivo.** Crédito los muestra en Vencidos; contabilidad no, porque filtra los documentos activos. Por el criterio correspondería alinearlo, pero el impacto es mínimo. ¿Se alinea o se anota como DP6?
+- **P1. Vencidos de un documento inactivo.** Resuelta el 2026-10-19: se deja como está (contabilidad no los muestra). Queda como **DP6** en [`ADR.md`](./ADR.md).
 
 ## Verificación
 

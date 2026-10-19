@@ -6,7 +6,7 @@ Referencia vigente de estados y reglas de los documentos de un comprobante conta
 |---|---|
 | [REQUERIMIENTO.md](./REQUERIMIENTO.md) | Criterio (crédito es la fuente) y cambios C1-C3 |
 | [ANALISIS.md](./ANALISIS.md) | Estados, marcas, pestañas, reglas vigentes R1-R17, hallazgos H1-H4 y verificación |
-| [ADR.md](./ADR.md) | ADR-001: crédito como fuente de verdad, con cinco diferencias a propósito (DP1-DP5) |
+| [ADR.md](./ADR.md) | ADR-001: crédito como fuente de verdad, con seis diferencias a propósito (DP1-DP6) |
 | [ELIMINACION.md](./ELIMINACION.md) | Paso a paso de la eliminación: constancia, inactivación, historial y recrear |
 
 ## Estado
