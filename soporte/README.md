@@ -11,3 +11,10 @@ Corresponde a `Negocio/Soporte/` y `Negocio/Crm/` (gestión de tickets) en el re
 | [soporte-ajustes-dias](./soporte-ajustes-dias/) | SLA en horas hábiles (deja de contar fin de semana/festivos); solucionado→cerrado pendiente |
 | [cierre-manual-tickets-vencidos](./cierre-manual-tickets-vencidos/) | Cierre de tickets vencidos (sin calificar/solucionado) manual, respetando calendario, ventana en días hábiles |
 | [dxlist-chat-soporte](./dxlist-chat-soporte/) | Spike: `dxList` vs. render manual para el chat — descartado, no se migra |
+| [Visualizacion tickets](./Visualizacion%20tickets/) | Filtro de estado "En Trámite" vacío por filtro fantasma persistido en `localStorage` |
+| [inicio-sesion-terceros](./inicio-sesion-terceros/) | Acceso al portal según los contactos del tercero (documento + correo); sin preguntar la empresa |
+| [peticiones-redmine](./peticiones-redmine/) | Adoptar piezas de Redmine en tickets: tareas por proyecto, grupos, roles y flujo de estados (planificado, [`ADR.md`](./peticiones-redmine/ADR.md)) |
+| [prioridades-por-sla](./prioridades-por-sla/) | El portal solo ofrece prioridades con SLA para el motivo; sin SLA no se crea el ticket y se elimina el tiempo de 72h automático |
+| [tiempo-respuesta-sla](./tiempo-respuesta-sla/) | El SLA suma tiempo de respuesta + resolución para la fecha límite; no se mide la respuesta |
+| [RESUMEN-rama-login-usuario-soporte.md](./RESUMEN-rama-login-usuario-soporte.md) | Resumen de todo lo hecho en la rama `feature/login-usuario-soporte` (SIIAN + portal) |
+| [asistente-ia-tickets](./asistente-ia-tickets/) | Idea a futuro: asistente que resuelve problemas comunes con lo ya respondido antes de pasar a un asesor |
