@@ -1,5 +1,26 @@
 # Documentos de un comprobante contable: cómo funciona
 
+| Campo | Valor |
+|---|---|
+| Módulo | contabilidad |
+| Área | archivos-contabilidad |
+| Menú | **EV006** - Documentos Expediente Virtual Contabilidad (`~/DocumentoTipo`): configuración de tipos y combos. **EV101** - Eliminar Archivos y Generar Acta (`~/ContenidoCarpetaVirtual`). **EV201** - Archivos Expediente Virtuales (`~/ContenidoCarpetaVirtual/IndexConsulta`) |
+| Se abre desde | **CO101** - Documento Contable (`~/DocumentoContable/CreateV2`): de ahí salen la pantalla de subida (`DocumentoContableArchivo`) y la de combos (`DocumentoContableCombo`), que no tienen entrada propia en el menú |
+| Estado | vigente |
+
+> En el menú de SIIAN esta área aparece como **Expediente Virtual Contabilidad**, hermana de crédito (EV002), terceros (EV003), CRM (EV004) y pagaré (EV005).
+
+## Features del área
+
+| Feature | Qué es |
+|---|---|
+| [expediente-virtual-configuracion](./expediente-virtual-configuracion/) | Configuración de agrupaciones, tipos de documento y combos |
+| [expediente-virtual-carga](./expediente-virtual-carga/) | Solicitud y carga de documentos en el comprobante |
+| [firma-documentos-contables](./firma-documentos-contables/) | Firma electrónica (VozData) de documentos cargados |
+| [paridad-documentos-credito](./paridad-documentos-credito/) | Brechas B1-B6 frente a crédito |
+| [ciclo-documentos](./ciclo-documentos/) | Estados y reglas vigentes; flujo de eliminación |
+| [consultas-documentos-sql](./consultas-documentos-sql/) | Lista de pendientes en una sola consulta SQL |
+
 Referencia de cierre. Cada comprobante contable puede pedir documentos (RUT, factura, soporte de pago...), el usuario los sube, y el sistema controla su vencimiento, su firma y su eliminación. Todo se comporta como en crédito, salvo seis diferencias a propósito ([sección 11](#11-diferencias-a-propósito-con-crédito)).
 
 > **Ojo con los permisos.** Agregar más de un combo, agregar o editar documentos sueltos y eliminar archivos solo los puede hacer quien tenga el permiso correspondiente, en pantalla y en el servidor. Ver [sección 10](#10-permisos).
@@ -239,9 +260,6 @@ Crédito es la fuente de verdad. Estas seis se mantienen (ADR-001 de [`ciclo-doc
 
 | #   | Qué                                                                                              | Efecto                                      |
 | --- | ------------------------------------------------------------------------------------------------ | ------------------------------------------- |
-| A1  | El controlador conserva un `Delete` generado que borra la relación sin constancia                | Ninguna pantalla lo llama                   |
-| A2  | `FirmaArchivoContableWebApiController` es un CRUD generado sin uso                               | Código muerto                               |
-| A3  | Un combo "para firmar" puede recibir un tipo sin firma: solo lo impide la pantalla               | Hueco de validación en servidor             |
 | A5  | El commit `b89d6bcd0` (formato de eliminación) no está documentado                               | Falta nota                                  |
 | A6  | `VistaArchivosEliminadosWebApiController` y su ViewModel, generados, no los usa ninguna pantalla | Código muerto                               |
 | —   | Las plantillas ("formato personalizado") se guardan pero nadie las lee                           | Fuera de alcance                            |

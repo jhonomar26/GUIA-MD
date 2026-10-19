@@ -53,6 +53,40 @@ el resto solo si aplica (ver tabla abajo).
 de negocio (herramientas, MCP, scripts internos), va suelta en la raíz — no se inventa
 un módulo para eso.
 
+### Área (nivel opcional dentro del módulo)
+
+Cuando un módulo acumula varias features de **un mismo tema** y se espera que el tema crezca,
+se agrupan en una carpeta de área: `<modulo>/<area>/<feature>/`. Precedente:
+`contabilidad/archivos-contabilidad/` (documentos y archivos de un comprobante, 6 features).
+
+- El área lleva su propio `README.md`, que es la **entrada vigente**: explica el tema de punta a
+  punta y enlaza al detalle de cada feature. El `README.md` del módulo tiene 1 fila por área.
+- Nombre en `kebab-case`, por el tema y no por una feature. No se crea un área para una sola feature.
+- Las features que ya existen no se mueven por este motivo (ver "Cuándo migrar un doc viejo").
+
+### Cabecera del README de una feature
+
+Para saber **a qué pertenece** una feature sin abrir el resto, el `README.md` de cada feature
+**nueva** abre con esta tabla:
+
+```markdown
+# Feature: <nombre>
+
+| Campo | Valor |
+|---|---|
+| Módulo | contabilidad |
+| Área | archivos-contabilidad (omitir si no hay) |
+| Menú | EV006 - Documentos Expediente Virtual Contabilidad (`~/DocumentoTipo`) |
+| Estado | en curso · vigente · histórico |
+```
+
+- **Menú:** código y pantalla tal como están en el menú de SIIAN (`generales_menu`). Si la
+  pantalla no tiene entrada propia, se escribe de dónde se abre (ej. "se abre desde CO101").
+  Para buscarlo, con `pg-demo`: `select codigo, nombre, funcionalidad from generales_menu where funcionalidad ilike '%<Controlador>%'`.
+- **Estado:** `en curso` (se está construyendo), `vigente` (cerrada y `IMPLEMENTACION.md` refleja el
+  código) o `histórico` (la reemplazó otra: se escribe cuál).
+- Las features que ya existen no necesitan la cabecera; se agrega cuando se vuelvan a tocar.
+
 No los cuatro archivos por feature son obligatorios — solo los que aporten. Reglas para
 elegir:
 
@@ -86,6 +120,10 @@ elegir:
     tildan al ejecutar; cada tarea lleva su línea `Se parece a: <precedente>`, ver paso 3b); `IMPLEMENTACION.md` es lo que **quedó** (Reference, archivo por
     archivo). Al cerrar la feature, `PLAN.md` queda como historia; lo vigente pasa a
     `IMPLEMENTACION.md`.
+  - **Al cerrar una feature nueva**, `PLAN.md`, `EXPLICACION.md` y los `PLAN-*`/`EXPLICACION-*` de
+    spike pasan a una subcarpeta `archivo/`, se corrigen sus enlaces y el estado del README pasa a
+    `vigente`. Quedan a la vista `README.md`, `REQUERIMIENTO.md`, `ANALISIS.md`, `ADR.md`,
+    `IMPLEMENTACION.md` y `evidencia/`. Las features ya cerradas no se mueven.
 - `ADR.md` es historia: no se reescribe cuando la decisión cambia, se agrega un ADR nuevo
   que dice "supersede a X".
 - `IMPLEMENTACION.md` sí se actualiza — es reference, debe reflejar el código actual.
@@ -130,9 +168,13 @@ Precedente: `soporte/Visualizacion tickets/`. Un bug no lleva `ANALISIS.md` ni `
 
 Regla: **"listo" sin evidencia no es listo.** Frases como "debería andar", "compila seguro" o "lo probé antes" no cuentan.
 
-- **Evidencia válida:** salida del build (`msbuild … /p:Configuration=Debug`, 0 errores), resultado de cada caso Dado/Cuando/Entonces del `PLAN.md` (respuesta de Postman, captura, resultado de un SQL antes/después) y, en front, `npm run build`.
+- **Evidencia válida:** salida del build (`msbuild … -p:Configuration=Debug`, 0 errores; en git bash con `-p:`, porque `/p:` lo convierte MSYS en una ruta), resultado de cada caso Dado/Cuando/Entonces del `PLAN.md` (respuesta de Postman, captura, resultado de un SQL antes/después) y, en front, `npm run build`.
 - **Dónde queda:** en `## Verificación` de `IMPLEMENTACION.md`, un renglón por caso con el resultado obtenido (no el esperado). La casilla del `PLAN.md` se tilda recién con eso escrito.
 - **Si algo falla o se saltó**, se escribe así tal cual ("caso 5 no probado: falta token de prueba"). Nunca se tilda en silencio.
+- **Carpeta `evidencia/`** dentro de la feature, para lo que se captura y no cabe en el texto:
+  `antes-<caso>.json` y `despues-<caso>.json` (respuesta del servicio), capturas `.png` y salidas
+  de consulta. Se nombra por caso y `IMPLEMENTACION.md` la enlaza. Precedente:
+  `contabilidad/archivos-contabilidad/consultas-documentos-sql/evidencia/`.
 
 ## Flujo de trabajo: entender antes de construir
 
@@ -185,6 +227,11 @@ persona responde con sus palabras: ¿para qué existe este paso y qué se rompe 
 qué en este orden? ¿qué pasa si la consulta devuelve 0 filas o más de una? Después se corre un
 caso real de punta a punta (los Dado/Cuando/Entonces del `PLAN.md`); un comentario convincente
 no prueba que el código esté bien. Si no se puede explicar el propósito, se vuelve al código.
+
+**Cuándo se puede omitir.** En un cambio simple (un método o una consulta, sin reglas nuevas) la
+persona puede decidir saltarse la entrevista de propósito. La decisión es suya, no del asistente,
+y se deja escrita en `IMPLEMENTACION.md` (sección "Pendiente": "paso 3b omitido por decisión de
+<quién>, <fecha>"). El paso 2 (entender la lógica) no se omite. Precedente: `consultas-documentos-sql`.
 
 **En qué se apoya** (investigado 2026-10-13):
 
@@ -253,8 +300,10 @@ programar, no se improvisa al final. Prácticas tomadas de fuentes existentes, n
 - **Golden master puntual** ([Feathers, characterization tests](https://michaelfeathers.silvrback.com/characterization-testing)):
   antes de tocar lógica delicada (contabilidad, cartera, nómina, XML DIAN) se captura la
   salida actual y se compara después. Solo el área que se cambia, no cobertura amplia.
-  Herramienta candidata: [ApprovalTests](https://approvaltests.com/) — **compatibilidad
-  con .NET 4.6.2 / Npgsql 2.2.7 sin verificar**, hacer un spike antes de adoptarla.
+  **Validado el 2026-10-19** en `consultas-documentos-sql`, sin herramienta: se guardó la
+  respuesta JSON del servicio antes del cambio (`evidencia/antes-*.json`), se repitió después y
+  se comparó byte a byte con `cmp`. Alcanza para un endpoint; [ApprovalTests](https://approvaltests.com/)
+  (compatibilidad con .NET 4.6.2 / Npgsql 2.2.7 sin verificar) solo si algún día hace falta algo más.
 - **Revisión con contexto fresco** ([Anthropic, Writer/Reviewer](https://code.claude.com/docs/en/best-practices)):
   un subagente revisa el diff contra el `ANALISIS.md`/`PLAN.md` y reporta solo lo que afecte
   corrección o requisitos, para no caer en sobreingeniería.
@@ -345,10 +394,11 @@ git log --oneline --diff-filter=A --name-only -- <modulo>/ | grep README.md   # 
 ## Chequeo de sincronización de tablas
 
 Antes de cerrar una feature, verificar que la carpeta quedó reflejada en el `README.md`
-del módulo (y ese, a su vez, en el `README.md` raíz) — es fácil crear la carpeta y olvidar
-la fila:
+del módulo (o del área, si la hay) y ese, a su vez, en el `README.md` raíz — es fácil crear la
+carpeta y olvidar la fila. El comando ordena ambos lados, acepta mayúsculas y números, y solo cuenta enlaces a carpetas (`[nombre](./nombre/)`):
 ```
-diff <(ls -d <modulo>/*/ | xargs -n1 basename) <(grep -oP '\[\K[a-z-]+(?=\])' <modulo>/README.md)
+diff <(ls -d <modulo>/*/ | xargs -n1 basename | sort) <(grep -oP '\[\K[A-Za-z0-9_-]+(?=\]\(\./[^)/]+/\))' <modulo>/README.md | sort)
 ```
-Si no imprime nada, están sincronizados. Con pocas features alcanza revisarlo a ojo; si el
-módulo crece mucho, correr el comando antes de cada cierre.
+Con área, se corre una vez por el módulo (filas = áreas) y otra por el área
+(`<modulo>/<area>/` contra `<modulo>/<area>/README.md`). Si no imprime nada, están sincronizados.
+Con pocas features alcanza revisarlo a ojo; si el módulo crece, correrlo antes de cada cierre.
