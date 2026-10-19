@@ -9,4 +9,5 @@
 
 ## Estado
 
-- Análisis cerrado (2026-10-16). `PLAN.md` escrito (2026-10-16), pendiente de revisión.
+- Análisis cerrado (2026-10-16). `PLAN.md` escrito (2026-10-16).
+- Tarea 0 y Tarea 1 hechas y commiteadas (`50348040d`, 2026-10-19). Tarea 2 hecha y commiteada (`9ec22b4d6`). Detalle en [`IMPLEMENTACION.md`](./IMPLEMENTACION.md).

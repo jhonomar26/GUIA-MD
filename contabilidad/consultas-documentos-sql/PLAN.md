@@ -36,13 +36,13 @@
 
 Sin código. Va primero porque, una vez compilado, el servidor ya no tiene la versión vieja.
 
-- [ ] **0.1** Con `pg-demo` (solo lectura), elegir comprobantes reales de `demo-25-09-2026`:
+- [x] **0.1** Con `pg-demo` (solo lectura), elegir comprobantes reales de `demo-25-09-2026`:
   - A: con 2 o más pendientes de tipos distintos (al menos uno con `esfoto` o `esfirmaelectronica` en true).
   - B: con un solicitado `PENDIENTE` de un tipo inactivo. Si no hay, se le pide al usuario que inactive un tipo en la pantalla de configuración y lo reactive al terminar (`claude_ro` no puede escribir).
   - C: con un solicitado `ELIMINADO` (recreado o no).
   - D: sin pendientes.
-- [ ] **0.2** Con sesión iniciada (skill `probar-en-navegador`, Orca), guardar la respuesta de `GET /rep1/api/DocumentoContableArchivoWebApi/ObtenerSolicitadosPendientesPorId?idDocumento=<id>` para A, B, C y D en `evidencia/antes-<id>.json` dentro de esta carpeta.
-- [ ] **0.3** Captura del selector "Documento" de la subida en el comprobante A (extensiones, expira, fecha manual).
+- [x] **0.2** Con sesión iniciada (skill `probar-en-navegador`, Orca), guardar la respuesta de `GET /rep1/api/DocumentoContableArchivoWebApi/ObtenerSolicitadosPendientesPorId?idDocumento=<id>` para A, B, C y D en `evidencia/antes-<id>.json` dentro de esta carpeta.
+- [x] **0.3** Captura del selector "Documento" de la subida en el comprobante A (extensiones, expira, fecha manual).
 
 ### Tarea 1: Pendientes con una sola consulta SQL
 
@@ -58,24 +58,24 @@ Se parece a: `ObtenerVencidosPorIddocumentocontable` (`Blip.Data/Contabilidad/Do
 - Produce: en el ViewModel, `[JsonIgnore] public bool EsFoto { get; set; }` y `[JsonIgnore] public bool EsFirmaElectronica { get; set; }` (`using Newtonsoft.Json;`; `Entities.csproj` ya referencia Newtonsoft 12.0.2).
 - Consume: `DocumentoContableArchivoActorNegocio.ObtenerExtensionesPermitidas(bool esFoto, bool esFirmaElectronica = false) : string[]` (`Negocio/Contabilidad/DocumentoContableArchivoActorNegocio.cs:445`).
 
-- [ ] **1.0** `EXPLICACION.md`, parte lógica: hoy son dos lecturas y un cruce en memoria; mañana es una consulta y el cálculo de extensiones. Entrevista breve al usuario. No se escribe código hasta que lo explique con sus palabras.
-- [ ] **1.1** Invocar la skill `siian-actor-dapper-metodos`. Agregar las dos propiedades `[JsonIgnore]` al ViewModel.
-- [ ] **1.2** Implementar `ObtenerPendientesPorIddocumentocontable`. Fija esto:
+- [x] **1.0** `EXPLICACION.md`, parte lógica: hoy son dos lecturas y un cruce en memoria; mañana es una consulta y el cálculo de extensiones. Entrevista breve al usuario. No se escribe código hasta que lo explique con sus palabras.
+- [x] **1.1** Invocar la skill `siian-actor-dapper-metodos`. Agregar las dos propiedades `[JsonIgnore]` al ViewModel.
+- [x] **1.2** Implementar `ObtenerPendientesPorIddocumentocontable`. Fija esto:
   - `FROM DocumentoContableSolicitado INNER JOIN DocumentoTipo ON DocumentoTipo.IdCampo = DocumentoContableSolicitado.IdtipodocumentoCampo`
   - Columnas con alias explícito: solicitado → `id`, `idtipodocumento`, `descripcion`, `esactivo`, `esobligatorio`; tipo → `nombre`, `expira`, `esfechamanual`, `diasvencimientodespuescargue`, `esdocumentounico`, `esfoto`, `esfirmaelectronica`.
   - `WHERE` solicitado `iddocumentocontable = @iddocumentocontable AND esactivo = true AND codigoestadodocumento = 'PENDIENTE' AND` tipo `esactivo = true`.
   - `ORDER BY DocumentoContableSolicitado.IdCampo`.
   - Comentario de una línea con el porqué: `// Pendiente = solicitado activo en estado PENDIENTE (R13) y de tipo activo; un ELIMINADO no vuelve (R9)` (se mueve del controlador).
   - `GeneralDao.Connection.Query<DocumentoSolicitadoPendienteViewModel>(...)`, como el precedente.
-- [ ] **1.3** En el controlador, el cuerpo del `try` de `ObtenerSolicitadosPendientesPorId` queda así: llamar a `ObtenerPendientesPorIddocumentocontable(idDocumento)`, asignar `Extensiones = ObtenerExtensionesPermitidas(p.EsFoto, p.EsFirmaElectronica)` a cada elemento y devolver `Ok(lista)`. Se quitan el `if (!solicitados.Any())` y el diccionario de tipos. La firma y el `catch` no cambian.
-- [ ] **1.4** Verificar la codificación (ver restricciones) y compilar: 0 errores. Repetir el 0.2 en `evidencia/despues-<id>.json` y comparar con `diff` contra el "antes":
+- [x] **1.3** En el controlador, el cuerpo del `try` de `ObtenerSolicitadosPendientesPorId` queda así: llamar a `ObtenerPendientesPorIddocumentocontable(idDocumento)`, asignar `Extensiones = ObtenerExtensionesPermitidas(p.EsFoto, p.EsFirmaElectronica)` a cada elemento y devolver `Ok(lista)`. Se quitan el `if (!solicitados.Any())` y el diccionario de tipos. La firma y el `catch` no cambian.
+- [x] **1.4** Verificar la codificación (ver restricciones) y compilar: 0 errores. Repetir el 0.2 en `evidencia/despues-<id>.json` y comparar con `diff` contra el "antes":
   - A: idéntico campo por campo. Si solo cambia el orden, frenar y consultar (foco 1).
   - B: el solicitado de tipo inactivo no aparece, ni antes ni después.
   - C: el eliminado no aparece.
   - D: `[]`, HTTP 200.
   - Captura del selector en A igual a la del 0.3.
-- [ ] **1.5** `EXPLICACION.md`, parte de código. Entrevista de propósito (paso 3b): ¿por qué `INNER JOIN` y no `LEFT`? ¿qué pasa si se quita el alias de `esactivo`? ¿por qué `Extensiones` no se calcula en `Blip.Data`?
-- [ ] **1.6** Commit, solo si se pide: `refactor(contabilidad): pendientes de documento en una sola consulta SQL`
+- [x] **1.5** *(omitido por decisión del usuario: cambio simple)* `EXPLICACION.md`, parte de código. Entrevista de propósito (paso 3b): ¿por qué `INNER JOIN` y no `LEFT`? ¿qué pasa si se quita el alias de `esactivo`? ¿por qué `Extensiones` no se calcula en `Blip.Data`?
+- [x] **1.6** Commit, solo si se pide: `refactor(contabilidad): pendientes de documento en una sola consulta SQL`
 
 ### Tarea 2: Borrar las tres consultas sin uso
 
@@ -86,9 +86,9 @@ Se parece a: nada que copiar; es borrado. El uso ya se descartó en el `ANALISIS
 
 **Interfaces:** ninguna. No se toca `VistaDocumentoContableCargadosActor.ObtenerPorDocumento`, que tiene el mismo nombre pero es otra cosa y sí se usa.
 
-- [ ] **2.1** Volver a confirmar que no hay usos: `rg -n "ObtenerSolicitadosPendientes\b|ObtenerSolicitadosPendientesEstado|DocumentoContableArchivoWebApi.*ObtenerPorDocumento|ObtenerPorDocumento\"" PruebaPostgreSQL --glob '!bin/**' --glob '!obj/**'`. Lo esperado: 0 resultados fuera del controlador.
-- [ ] **2.2** Borrar los tres métodos (bytes latin1). No tocar los `using`, aunque alguno quede sin uso (diff mínimo).
-- [ ] **2.3** Verificar la codificación y compilar: 0 errores. `rg -n "ObtenerRegistros" <controlador>` debe dejar solo `CompaniasActor.ObtenerRegistros()` en `ObtenerVencidos`: es una fila de configuración, igual que la exclusión de H5.
-- [ ] **2.4** Regresión rápida en el comprobante A: las pestañas Pendientes, Cargados y Vencidos abren sin error.
-- [ ] **2.5** `IMPLEMENTACION.md` con `## Archivos tocados`, `## Cambio` y `## Verificación`: un renglón por caso, con el resultado obtenido. Actualizar el `README.md` de la feature (fila del plan, estado) y el del módulo si cambia el estado.
-- [ ] **2.6** Commit, solo si se pide: `refactor(contabilidad): borrar consultas sin uso de documentos contables`
+- [x] **2.1** Volver a confirmar que no hay usos: `rg -n "ObtenerSolicitadosPendientes\b|ObtenerSolicitadosPendientesEstado|DocumentoContableArchivoWebApi.*ObtenerPorDocumento|ObtenerPorDocumento\"" PruebaPostgreSQL --glob '!bin/**' --glob '!obj/**'`. Lo esperado: 0 resultados fuera del controlador.
+- [x] **2.2** Borrar los tres métodos (bytes latin1). No tocar los `using`, aunque alguno quede sin uso (diff mínimo).
+- [x] **2.3** Verificar la codificación y compilar: 0 errores. `rg -n "ObtenerRegistros" <controlador>` debe dejar solo `CompaniasActor.ObtenerRegistros()` en `ObtenerVencidos`: es una fila de configuración, igual que la exclusión de H5.
+- [x] **2.4** Regresión rápida en el comprobante A: las pestañas Pendientes, Cargados y Vencidos abren sin error.
+- [x] **2.5** `IMPLEMENTACION.md` con `## Archivos tocados`, `## Cambio` y `## Verificación`: un renglón por caso, con el resultado obtenido. Actualizar el `README.md` de la feature (fila del plan, estado) y el del módulo si cambia el estado.
+- [x] **2.6** Commit, solo si se pide: `refactor(contabilidad): borrar consultas sin uso de documentos contables`
