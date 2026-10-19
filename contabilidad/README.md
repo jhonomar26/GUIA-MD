@@ -2,6 +2,8 @@
 
 Corresponde a `Negocio/Contabilidad/` en el repo SIIAN.
 
+**Empezar aquí:** [FUNCIONAMIENTO-DOCUMENTOS.md](./FUNCIONAMIENTO-DOCUMENTOS.md) describe de punta a punta cómo funcionan los documentos de un comprobante (configuración, carga, firma, eliminación) y qué quedó pendiente. Las features de abajo son el detalle.
+
 | Feature | Qué es |
 |---|---|
 | [expediente-virtual-configuracion](./expediente-virtual-configuracion/) | Configuración de documentos contables (agrupaciones, tipos, combos) igual a la de crédito (F0-F3 implementadas; faltan filtro "formato contable" y script de plantillas) |
