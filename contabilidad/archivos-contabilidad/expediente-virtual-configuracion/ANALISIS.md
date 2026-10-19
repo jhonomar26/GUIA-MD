@@ -194,7 +194,7 @@ Evidencia: `Negocio/Contabilidad/DocumentoContableArchivoActorNegocio.cs:360-387
 
 **H11 — Columnas sacadas del código, no de la base.** No hay scripts de creación de estas tablas en disco. En esta sesión no hubo acceso a la base de datos. Un comentario menciona una regla de base (CHECK) para los días que no se pudo confirmar.
 Evidencia: `DocumentoTipoActorNegocio.cs:27`.
-**Primer paso del plan:** comparar contra la base real, con el acceso de solo lectura descrito en [`bases-datos/`](../../bases-datos/).
+**Primer paso del plan:** comparar contra la base real, con el acceso de solo lectura descrito en [`bases-datos/`](../../../bases-datos/).
 
 **H12 — La página contable no está en el menú por código.** Los menús viven en la base de datos. Hay que confirmar desde dónde se entra hoy a la página.
 Evidencia: `Controllers/Contabilidad/DocumentoTipoController.cs:10`.

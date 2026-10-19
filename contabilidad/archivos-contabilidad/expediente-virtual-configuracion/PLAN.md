@@ -213,6 +213,6 @@ Recorrido final:
   - `siian-devextreme-components`
   - `siian-devextreme-behavior`
 - **Base y SQL:**
-  - Verificación de base (F0) con el MCP de solo lectura `pg-demo` ([`bases-datos/USO.md`](../../bases-datos/USO.md)). PostgreSQL 11.18, Npgsql 2.2.7.
+  - Verificación de base (F0) con el MCP de solo lectura `pg-demo` ([`bases-datos/USO.md`](../../../bases-datos/USO.md)). PostgreSQL 11.18, Npgsql 2.2.7.
   - Campos estáticos de la entidad en el SQL, nunca literales. En `UPDATE SET`, `.Split('.')[2]`.
 - **Proyecto:** registrar cada `.cs` nuevo en su csproj. Rama: `feature/expediente-virtual`.

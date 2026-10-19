@@ -237,16 +237,16 @@ Crédito es la fuente de verdad. Estas seis se mantienen (ADR-001 de [`ciclo-doc
 
 **Huecos conocidos**
 
-| # | Qué | Efecto |
-|---|---|---|
-| A1 | El controlador conserva un `Delete` generado que borra la relación sin constancia | Ninguna pantalla lo llama |
-| A2 | `FirmaArchivoContableWebApiController` es un CRUD generado sin uso | Código muerto |
-| A3 | Un combo "para firmar" puede recibir un tipo sin firma: solo lo impide la pantalla | Hueco de validación en servidor |
-| A5 | El commit `b89d6bcd0` (formato de eliminación) no está documentado | Falta nota |
-| A6 | `VistaArchivosEliminadosWebApiController` y su ViewModel, generados, no los usa ninguna pantalla | Código muerto |
-| — | Las plantillas ("formato personalizado") se guardan pero nadie las lee | Fuera de alcance |
-| — | Elegir solo plantillas "formato contable" | Pendiente: falta la marca en las plantillas |
-| — | La extensión se valida por nombre, no por contenido | Un `.exe` renombrado a `.pdf` pasa |
+| #   | Qué                                                                                              | Efecto                                      |
+| --- | ------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| A1  | El controlador conserva un `Delete` generado que borra la relación sin constancia                | Ninguna pantalla lo llama                   |
+| A2  | `FirmaArchivoContableWebApiController` es un CRUD generado sin uso                               | Código muerto                               |
+| A3  | Un combo "para firmar" puede recibir un tipo sin firma: solo lo impide la pantalla               | Hueco de validación en servidor             |
+| A5  | El commit `b89d6bcd0` (formato de eliminación) no está documentado                               | Falta nota                                  |
+| A6  | `VistaArchivosEliminadosWebApiController` y su ViewModel, generados, no los usa ninguna pantalla | Código muerto                               |
+| —   | Las plantillas ("formato personalizado") se guardan pero nadie las lee                           | Fuera de alcance                            |
+| —   | Elegir solo plantillas "formato contable"                                                        | Pendiente: falta la marca en las plantillas |
+| —   | La extensión se valida por nombre, no por contenido                                              | Un `.exe` renombrado a `.pdf` pasa          |
 
 ## 14. Dónde está el detalle
 

@@ -136,7 +136,7 @@ Regla: **"listo" sin evidencia no es listo.** Frases como "debería andar", "com
 
 ## Flujo de trabajo: entender antes de construir
 
-Regla de la mesa (2026-10-06, nacida en `contabilidad/firma-documentos-contables`): **no se
+Regla de la mesa (2026-10-06, nacida en `contabilidad/archivos-contabilidad/firma-documentos-contables`): **no se
 escribe código de una etapa hasta que quien la va a aprobar la haya entendido y sepa
 explicarla.** Escribir primero y explicar después deja a la persona validando algo ya hecho,
 sin chance de corregir el rumbo. Explicar antes ayuda además a **descubrir lo que no cuadra** y
