@@ -12,7 +12,3 @@
 ## Estado
 
 Implementado y probado a mano. Las reglas de los documentos contables (estados, extensiones, eliminación) viven en [ciclo-documentos](../ciclo-documentos/).
-
-Pendiente:
-- El servidor no valida que a un combo "para firmar" solo se agreguen tipos con firma electrónica. Solo lo filtra la pantalla.
-- `FirmaArchivoContableWebApiController` es un CRUD generado por plantilla que nadie usa.

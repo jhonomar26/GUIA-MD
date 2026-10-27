@@ -25,6 +25,19 @@ Contabilidad ya cubre: pestañas Cargados, Remoto, Pendientes y Vencidos; subida
 | B5  | Pestaña Vencidos completa                                                              | `MostrarArchivos.cshtml:567-621`                                                   | Solo nombre, vencimiento y "Ver" (`_GestionDocumentos.cshtml:125-154`)                                                                                              |
 | B6  | Columna "Obligatorio" en Pendientes                                                    | `MostrarArchivos.cshtml:561`                                                       | Solo el `*` en el selector de subida                                                                                                                                |
 
+## Estado (2026-10-19)
+
+Implementadas en código, ver [IMPLEMENTACION.md](./IMPLEMENTACION.md). Pruebas manuales pendientes, salvo B2 M1.
+
+| #   | Estado   |
+| --- | -------- |
+| B1  | Hecho    |
+| B2  | Hecho    |
+| B3  | Hecho    |
+| B4  | Hecho    |
+| B5  | Hecho    |
+| B6  | Hecho    |
+
 ## Por decidir con negocio (no entran hasta que se confirmen)
 
 - **D1:** bloquear carga y edición según el estado del comprobante (anulado, periodo cerrado). Hoy no hay ningún bloqueo.

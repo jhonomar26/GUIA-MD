@@ -20,7 +20,6 @@
 | [paridad-documentos-credito](./paridad-documentos-credito/) | Brechas B1-B6 frente a crédito |
 | [ciclo-documentos](./ciclo-documentos/) | Estados y reglas vigentes; flujo de eliminación |
 | [consultas-documentos-sql](./consultas-documentos-sql/) | Lista de pendientes en una sola consulta SQL |
-
 Referencia de cierre. Cada comprobante contable puede pedir documentos (RUT, factura, soporte de pago...), el usuario los sube, y el sistema controla su vencimiento, su firma y su eliminación. Todo se comporta como en crédito, salvo seis diferencias a propósito ([sección 11](#11-diferencias-a-propósito-con-crédito)).
 
 > **Ojo con los permisos.** Agregar más de un combo, agregar o editar documentos sueltos y eliminar archivos solo los puede hacer quien tenga el permiso correspondiente, en pantalla y en el servidor. Ver [sección 10](#10-permisos).

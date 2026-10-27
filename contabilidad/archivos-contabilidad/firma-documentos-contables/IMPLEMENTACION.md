@@ -37,14 +37,14 @@ Scripts en `C:\Users\User\DataGripProjects\scriptsSiian\contabilidad\scratch\`:
 | Datos | `Blip.Data/Contabilidad/DocumentoContableSolicitado.cs`, `...Actor.cs` | Propiedad `Idtercero` (9.º parámetro obligatorio del constructor) |
 | Datos | `Blip.Data/Contabilidad/VistaDocumentoContableCargados.cs`, `...Actor.cs` | 4 campos de firma de la vista |
 | Datos | `Blip.Data/Contabilidad/ComboDocumentoContableActorNegocio.cs` | `TipoEnComboParaFirmar(idtipo)` |
-| Entidades | `VistaDocumentoContableCargadosViewModel.cs`, `FirmaArchivoContableViewModel.cs`, `FirmaCarpetaVirtualViewModel.cs` (`EsFirmaContable`) | |
+| Entidades | `VistaDocumentoContableCargadosViewModel.cs`, `FirmaCarpetaVirtualViewModel.cs` (`EsFirmaContable`) | |
 | Negocio | `Negocio/Firmas/FirmaArchivoContableActorNegocio.cs` | Copia de crédito sin codeudores; firmante único = tercero del solicitado; mensajes claros de archivo ajeno o sin tercero. `ValidarEsPdf` rechaza firmar un archivo que no sea `.pdf`, en `FirmarDocumento` y en `EnviarSolicitudFirma` |
 | Negocio | `Negocio/Contabilidad/DocumentoContableArchivoActorNegocio.cs` | `ObtenerExtensionesPermitidas(esFoto, esFirmaElectronica)`: si el tipo exige firma, solo `.pdf`. `ValidarArchivoConTiposPermitidos` aplica esa regla al subir |
 | Web | `Controllers/Firmas/FirmaArchivoContableController.cs` | Mismas acciones que crédito, salvo `Index`. `[Log]` a nivel de clase cierra la conexión, sin `finally` en las acciones |
-| Web | `Controllers/WebApi/FirmaArchivoContableWebApiController.cs` | CRUD generado por plantilla. Nadie lo usa |
 | Web | `Controllers/WebApi/DocumentoContableArchivoWebApiController.cs` | `ObtenerSolicitadosPendientesPorId` envía a la pantalla de subida las extensiones de `ObtenerExtensionesPermitidas` |
 | Web | `SIIAN.VozData/Handlers/FirmarDocumentoCarpetaVirtualHandler.cs` | Rama `EsFirmaContable` que inserta el vínculo |
 | Web | `Controllers/Contabilidad/DocumentoContableArchivoController.cs` | `SubirArchivo` pasa `tipo.Esfirmaelectronica` a la validación |
+| Web | `Controllers/WebApi/ComboDocumentoContableWebApiController.cs` | `Post`/`Put` rechazan un tipo sin firma en un combo para firmar |
 | Web | `Controllers/WebApi/DocumentoTipoWebApiController.cs` | `Put` rechaza quitar la firma a un tipo que está en un combo para firmar |
 | Vistas | `Views/FirmaProcesoMaestro/FirmarDocumento.cshtml` | Título y controlador para el caso contable |
 | Vistas | `Views/DocumentoContableArchivo/_GestionDocumentos.cshtml`, `_Estilos.cshtml` | Botón Firmar con color por estado (normal, naranja, verde, rojo) |
@@ -53,5 +53,5 @@ Scripts en `C:\Users\User\DataGripProjects\scriptsSiian\contabilidad\scratch\`:
 ## Reglas que conviene recordar
 
 - **Quitar la firma a un tipo** que está en un combo para firmar da error 400 (evita subir un `.docx` a un documento que luego no se puede firmar).
-- **Agregar tipos a un combo "para firmar"** solo se filtra en la UI (`GetActivosParaCombo`); el servidor no lo valida. Hueco conocido.
+- **Agregar tipos a un combo "para firmar"** se filtra en la UI (`GetActivosParaCombo`) y también en el servidor: `ComboDocumentoContableWebApiController` (`Post` y `Put` al reactivar o cambiar tipo/combo) llama a `DocumentoContableComboAsignacionActorNegocio.ValidarTipoEnCombo`, que da 400 si el tipo no tiene firma electrónica.
 - **Eliminar con recrear:** el nuevo PENDIENTE hereda `idtercero`. El resto de la eliminación (transacción, borrado del archivo físico) está en [ciclo-documentos/ELIMINACION.md](../ciclo-documentos/ELIMINACION.md).
