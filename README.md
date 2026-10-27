@@ -11,6 +11,7 @@ en el repo), y dentro de cada módulo, una carpeta por feature/iniciativa. Ver
 | [reportes](./reportes/)         | report-designer-formatos                                                                                                                                               |
 | [contabilidad](./contabilidad/) | expediente-virtual-configuracion, expediente-virtual-carga                                                                                                             |
 | garantias                       | garantias                                                                                                                                                              |
+| [tesoreria](./tesoreria/)       | archivos-recaudo                                                                                                                                                       |
 |                                 |                                                                                                                                                                        |
 
 | Carpeta raíz (no es módulo de negocio) | Qué es |
