@@ -30,31 +30,58 @@ notas-siian/
     REPORT_DESIGNER.md
   mcp-postgres/                ← herramienta/tooling, no es feature de producto ni módulo
   <modulo>/                    ← soporte/, cartera/, reportes/, etc.
-    README.md                  ← índice del módulo: 1 fila por feature
-    <feature-o-iniciativa>/
-      README.md                ← índice de la carpeta, 3-5 líneas
-      REQUERIMIENTO.md         ← pedido original + indagación (primer doc, apenas llega el requerimiento)
-      ANALISIS.md              ← negocio, SIN código: qué ya existe, qué falta, reglas/estados (ANTES de planear)
-      ADR.md                   ← si hubo una decisión real de diseño (opcional)
-      PLAN.md                  ← plan TÉCNICO por fases y casillas ANTES de programar (superpowers:writing-plans)
-      IMPLEMENTACION.md        ← Reference: qué quedó construido, archivo por archivo
-      EXPLICACION.md           ← Explanation: cómo funciona cada etapa; primero lógica de negocio, luego código (ver [flujo de feature](./flujo-de-feature.md))
+    README.md                  ← índice del módulo: 1 fila por área o feature
+    <area>/                    ← el tema grande (ej. archivos-ahorros)
+      README.md                ← cabecera + features chicas en orden, con su estado
+      REQUERIMIENTO.md         ← el pedido textual
+      ANALISIS.md              ← negocio, SIN código: qué existe, flujo con diagrama, mapa si se copia un módulo
+      REGLAS-DE-NEGOCIO.md     ← R1, R2… con porqué y estado; ANTES de partir en features
+      ADR.md                   ← si hubo que elegir entre enfoques (opcional)
+      <n>-<feature>/           ← una feature chica vertical (BD + backend + pantalla + prueba)
+        README.md              ← cabecera
+        PLAN.md                ← formato ODD: Specs (citan R#), Casos, Tareas, Log
+        EXPLICACION.md         ← la lógica de la feature en negocio, con diagrama, ANTES del código
+        evidencia/             ← capturas y salidas de la prueba
+    <bug>/
+      REQUERIMIENTO.md         ← síntoma y reproducción
+      IMPLEMENTACION.md        ← causa raíz, archivos, cambio, verificación
 ```
+
+El flujo completo está en [flujo de feature](./flujo-de-feature.md).
 
 ### Qué archivos crear
 
-Solo `REQUERIMIENTO.md` se crea de entrada. El resto, solo los que aporten:
-
 | Si... | Usa |
 |---|---|
-| Cambio de 1 método/query obvio, sin ambigüedad ni indagación real | Ninguno — el mensaje de commit alcanza |
-| Hubo indagación real (el pedido original no bastaba, tocó preguntar/entender la regla) | `REQUERIMIENTO.md` |
-| La feature toca algo que ya existe en SIIAN, tiene estados/transiciones, o reglas de negocio que dependen unas de otras (¿qué pasa si X mientras Y?) | `ANALISIS.md`, **antes** de planear — ver [cómo se hace un `ANALISIS.md`](./como-hacer-un-analisis.md) |
+| Cambio chico: se retoma desde el diff (1 método/query obvio, sin reglas nuevas) | Ninguno — el mensaje de commit alcanza |
+| Un bug | `REQUERIMIENTO.md` + `IMPLEMENTACION.md` (ver [flujo de bug](./verificacion-y-cierre.md)) |
+| Un tema grande (no se retoma desde el diff) | Área con `README.md`, `REQUERIMIENTO.md`, `ANALISIS.md` y `REGLAS-DE-NEGOCIO.md`; después una carpeta por feature chica con `README.md`, `PLAN.md`, `EXPLICACION.md` y `evidencia/` |
+| Una feature grande pero única (no va a tener hermanas) | Una sola carpeta con `README.md`, `REQUERIMIENTO.md`, `ANALISIS.md` (las reglas en su sección `## Reglas`), `PLAN.md`, `EXPLICACION.md` y `evidencia/` |
 | Hubo que decidir entre 2+ enfoques y vale la pena que quede el porqué | `ADR.md` |
-| Ya hay enfoque y se va a programar algo de más de un archivo (o lo ejecuta un agente) | `PLAN.md` |
-| Ya está construido y quieres el mapa de archivos/métodos tocados | `IMPLEMENTACION.md` |
-| Feature de más de una etapa (la persona debe entender cada una antes de que se programe), o alguien no técnico / vos en 6 meses necesita el panorama | `EXPLICACION.md` |
 | El concepto aplica a más de una feature (ej. "cómo funciona el Report Designer de DevExpress") | va en `conceptos/`, no repetido en cada feature |
+
+### Formato del `PLAN.md` de una feature (formato ODD)
+
+```markdown
+# Plan: <feature>
+
+> Objetivo en una línea · ← [README](./README.md) · Reglas: [R16-R21](../REGLAS-DE-NEGOCIO.md)
+
+## Specs
+- S1. <lo que debe hacer, con las palabras exactas del usuario>. Implementa R16, R18.
+
+## Casos
+| # | Regla | Dado | Cuando | Entonces | Resultado |
+|---|---|---|---|---|---|
+| 1 | R18 | un tipo con firma | subo un `.docx` | lo rechaza con un mensaje claro | (se llena al probar) |
+
+## Tareas
+- [ ] T1 (S1). <qué>. Se parece a: <archivo o método existente>.
+
+## Log
+- L1 (fecha). El pedido de esta feature, textual, o enlace al `REQUERIMIENTO.md` del área.
+- L2 (fecha). Decisiones, correcciones del usuario y evidencia de la prueba.
+```
 
 **¿Qué es "módulo"?** Los mismos del proyecto: `Cartera`, `Credito`, `AhorrosyAportes`,
 `Contabilidad`, `Cobranzas`, `Garantias`, `Inventario`, `Firmas`, `CentralRiesgo`,
@@ -93,8 +120,8 @@ Para saber **a qué pertenece** una feature sin abrir el resto, el `README.md` d
 - **Menú:** código y pantalla tal como están en el menú de SIIAN (`generales_menu`). Si la
   pantalla no tiene entrada propia, se escribe de dónde se abre (ej. "se abre desde CO101").
   Para buscarlo, con `pg-demo`: `select codigo, nombre, funcionalidad from generales_menu where funcionalidad ilike '%<Controlador>%'`.
-- **Estado:** `en curso` (se está construyendo), `vigente` (cerrada y `IMPLEMENTACION.md` refleja el
-  código) o `histórico` (la reemplazó otra: se escribe cuál).
+- **Estado:** `en curso` (se está construyendo), `vigente` (cerrada: todos los casos del `PLAN.md`
+  pasaron) o `histórico` (la reemplazó otra: se escribe cuál).
 - Las features que ya existen no necesitan la cabecera; se agrega cuando se vuelvan a tocar.
 
 ## Reglas de contenido
@@ -111,23 +138,48 @@ Para saber **a qué pertenece** una feature sin abrir el resto, el `README.md` d
     en algo existente; lo que no existe se marca como "nuevo" y se justifica.
   - **Señal de alarma:** si estás escribiendo un nombre de archivo o de clase en un
     `ANALISIS.md`, ya empezaste a planear — pasa ese contenido a `PLAN.md`.
-  - `PLAN.md` e `IMPLEMENTACION.md` son los únicos docs donde corresponde hablar en
-    términos de código. `PLAN.md` es lo que **se va a** hacer (fases, casillas `- [ ]`, se
-    tildan al ejecutar; cada tarea lleva su línea `Se parece a: <precedente>`, ver paso 3b); `IMPLEMENTACION.md` es lo que **quedó** (Reference, archivo por
-    archivo).
-  - **Al cerrar una feature nueva**, `PLAN.md`, `EXPLICACION.md` y los `PLAN-*`/`EXPLICACION-*` de
-    spike pasan a una subcarpeta `archivo/`, se corrigen sus enlaces y el estado del README pasa a
-    `vigente`. Quedan a la vista `README.md`, `REQUERIMIENTO.md`, `ANALISIS.md`, `ADR.md`,
-    `IMPLEMENTACION.md` y `evidencia/`. Las features ya cerradas no se mueven.
+  - **`REGLAS-DE-NEGOCIO.md` también va en negocio**: cada regla con su porqué y su estado. Una
+    regla nueva que aparezca en una feature se agrega ahí, no queda suelta en el `PLAN.md`.
+  - `PLAN.md` (y en bugs `IMPLEMENTACION.md`) son los únicos docs donde corresponde hablar en
+    términos de código. Las tareas son casillas `- [ ]` que se tildan al ejecutar, cada una con su
+    línea `Se parece a: <precedente>` (ver paso 3b).
+  - **Al cerrar una feature**, la columna Resultado de sus casos queda llena, el estado del README
+    pasa a `vigente` y la fila del README del área se actualiza. No se mueve nada a `archivo/`
+    (las features cerradas con el formato viejo tampoco).
 - `ADR.md` es historia: no se reescribe cuando la decisión cambia, se agrega un ADR nuevo
   que dice "supersede a X".
-- `IMPLEMENTACION.md` sí se actualiza — es reference, debe reflejar el código actual.
-- Cada carpeta de feature enlaza (no copia) a los scripts SQL en
-  `DataGripProjects/fix-soporte-tickets/entregables/...` cuando aplique — la fuente de
-  verdad del SQL vive en ese repo, acá solo se referencia la ruta.
+- `IMPLEMENTACION.md` (bugs y features viejas) sí se actualiza — es reference, debe reflejar el código actual.
+- Cada `PLAN.md` nombra (no copia) los scripts SQL de su feature — la fuente de verdad del
+  SQL vive en `C:\Users\User\DataGripProjects\scriptsSiian`, acá solo se referencia la ruta.
+  Ver [scripts SQL](#scripts-sql).
 - Nombres de carpeta (módulo y feature) en `kebab-case`, cortos, sin fecha (la fecha va
   en los commits del repo de notas, no en el nombre).
 - Un `README.md` por carpeta de feature (1 fila por doc) y por carpeta de módulo (1 fila por feature), sin repetir contenido.
 - Antes de crear una carpeta de feature nueva, revisar si ya existe una relacionada
-  dentro del módulo — si la hay, actualizar esa (`IMPLEMENTACION.md`) en vez de crear
+  dentro del módulo — si la hay, actualizar esa (su `PLAN.md`) en vez de crear
   otra. Evita fragmentar la misma funcionalidad en 3 carpetas.
+
+## Scripts SQL
+
+Copian la estructura de estas notas: `scriptsSiian/<modulo>/<area>/<n>-<feature>/NN-<que-hace>.sql`
+(ej. `ahorrosyaportes/archivos-ahorros/4-eliminar-con-constancia/01-permiso-eliminar.sql`).
+Del `PLAN.md` de una feature se llega a sus scripts por el mismo camino. Detalle y fuentes en
+[Guia base de datos siian](../Guia%20base%20de%20datos%20siian.md) (copia de `scriptsSiian\ORGANIZACION.MD`).
+
+- La carpeta de la feature se crea al arrancarla, con el **mismo número y nombre** que en notas.
+- Dentro, `01-`, `02-`… en el orden en que se crean, que es el orden en que se corren. Entre
+  features manda el número de carpeta.
+- **Nunca letras ni subnúmeros** (`3b`, `7b`): partir o corregir un script = número siguiente.
+- **Un cambio va en un script nuevo, no se corrige el que ya está** (también vistas: cambiar la
+  de cargados = script nuevo con el `CREATE OR REPLACE VIEW` completo), idempotente. Va en la
+  carpeta de la **feature que pide el cambio**, no en la que creó el objeto. Es lo que hace
+  Flyway con sus versionados.
+  - **Vale la versión del último script** que toca el objeto. Si la vista de cargados está en 3
+    scripts y se corrige el 2, el 3 la vuelve a pisar y ya no se sabe cuál va a producción.
+  - Solo se puede corregir el **último** script del objeto, y solo si todavía no lo corrió nadie.
+- Lo exploratorio (selects, drops, datos de prueba) va en `pruebas.sql` de la feature, nunca en
+  un numerado.
+- El orden real entre features para producción lo fija `<modulo>/entregables/YYYY-MM-DD-entregable/`.
+
+Precedente: `archivos-ahorros` llegó a tener `3`, `3b`, `3c`, `3d` y `7b`; el 2026-11-05 se movió
+a una carpeta por feature.

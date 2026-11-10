@@ -17,4 +17,5 @@ Corresponde a `Negocio/Soporte/` y `Negocio/Crm/` (gestión de tickets) en el re
 | [prioridades-por-sla](./prioridades-por-sla/) | El portal solo ofrece prioridades con SLA para el motivo; sin SLA no se crea el ticket y se elimina el tiempo de 72h automático |
 | [tiempo-respuesta-sla](./tiempo-respuesta-sla/) | El SLA suma tiempo de respuesta + resolución para la fecha límite; no se mide la respuesta |
 | [RESUMEN-rama-login-usuario-soporte.md](./RESUMEN-rama-login-usuario-soporte.md) | Resumen de todo lo hecho en la rama `feature/login-usuario-soporte` (SIIAN + portal) |
+| [coherencia-dashboard-portal](./coherencia-dashboard-portal/) | El tablero del portal cuenta sobre los mismos tickets que la grilla; ticket sin entorno ya no desaparece; "Vencidos" igual que en soporte (en curso) |
 | [asistente-ia-tickets](./asistente-ia-tickets/) | Idea a futuro: asistente que resuelve problemas comunes con lo ya respondido antes de pasar a un asesor |

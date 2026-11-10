@@ -20,6 +20,9 @@
 | [paridad-documentos-credito](./paridad-documentos-credito/) | Brechas B1-B6 frente a crédito |
 | [ciclo-documentos](./ciclo-documentos/) | Estados y reglas vigentes; flujo de eliminación |
 | [consultas-documentos-sql](./consultas-documentos-sql/) | Lista de pendientes en una sola consulta SQL |
+| [remodelacion-bd](./remodelacion-bd/) | En curso: modelo pedido → puente → archivo contable y subida de archivos sobre ese modelo |
+| [correcciones-expediente](./correcciones-expediente/) | Etapa 1 cerrada (T1-T3, T5), etapa 2 pendiente: hallazgos H1-H13 de la revisión frente a crédito y ahorros (2026-11-05), uno por uno |
+| [eliminar-retira-pedido](./eliminar-retira-pedido/) | En curso: eliminar un archivo retira su pedido, en contabilidad y ahorros (reemplaza T7/R8 de correcciones-expediente) |
 Referencia de cierre. Cada comprobante contable puede pedir documentos (RUT, factura, soporte de pago...), el usuario los sube, y el sistema controla su vencimiento, su firma y su eliminación. Todo se comporta como en crédito, salvo seis diferencias a propósito ([sección 11](#11-diferencias-a-propósito-con-crédito)).
 
 > **Ojo con los permisos.** Agregar más de un combo, agregar o editar documentos sueltos y eliminar archivos solo los puede hacer quien tenga el permiso correspondiente, en pantalla y en el servidor. Ver [sección 10](#10-permisos).
@@ -150,7 +153,7 @@ stateDiagram-v2
 | Pestaña | Muestra |
 |---|---|
 | **Pendientes** y selector de subida | Solicitado activo, estado `PENDIENTE` y tipo activo |
-| **Cargados / Cargados (Remoto)** | Carga activa y archivo no eliminado; separados por si está en FTP. Se edita la descripción del archivo |
+| **Cargados / Cargados (Remoto)** | Archivo no eliminado, aunque su pedido esté retirado (columna Activo); separados por si está en FTP. Se edita la descripción del archivo |
 | **Vencidos** | Activos, cargados y con vencimiento pasado |
 | **Solicitados** (en la solicitud) | Todos, con estado visible |
 | **Eliminados** (en la solicitud) | Historial: quién, cuándo y por qué |
@@ -220,13 +223,13 @@ Cada permiso es una *acción de funcionalidad* asignada a un rol. El sistema bus
 
 ## 11. Diferencias a propósito con crédito
 
-Crédito es la fuente de verdad. Estas seis se mantienen (ADR-001 de [`ciclo-documentos`](./ciclo-documentos/ADR.md)); cualquier otra necesita un ADR nuevo.
+Crédito es la fuente de verdad. Estas cinco se mantienen (ADR-001 de [`ciclo-documentos`](./ciclo-documentos/ADR.md)); cualquier otra necesita un ADR nuevo.
 
 | # | Contabilidad | Crédito |
 |---|---|---|
 | DP1 | Cada documento del combo dice si es obligatorio | Todo nace obligatorio |
 | DP2 | Un tipo único no se repite en el comprobante | Se puede repetir (defecto) |
-| DP3 | Recrear copia descripción y obligatorio | El nuevo nace vacío |
+| ~~DP3~~ | ~~Recrear copia descripción y obligatorio~~ | Superada por [ADR-001](./remodelacion-bd/ADR.md) (2026-10-27): contabilidad recrea igual que crédito, descripción vacía y obligatorio |
 | DP4 | "Foto" solo acepta imágenes | La marca existe pero no se usa |
 | DP5 | 13 extensiones generales | 6 |
 | DP6 | Vencidos no muestra documentos inactivos | Los muestra |

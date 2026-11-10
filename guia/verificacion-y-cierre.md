@@ -11,16 +11,40 @@ Precedente: `soporte/Visualizacion tickets/`. Un bug no lleva `ANALISIS.md` ni `
 3. **`IMPLEMENTACION.md`**, con 4 secciones fijas: `## Causa raíz` (con archivo:línea de evidencia), `## Archivos tocados`, `## Cambio` y `## Verificación`.
 4. **El fix va donde nace el problema**, no en el síntoma: un guard en la función compartida, no uno por cada llamador.
 
+## Cómo se prueba una feature
+
+El repo no tiene tests automáticos, así que la política de ODD de "test primero" no aplica y ODD
+cae a "pruebas funcionales proporcionadas" sin decir cuáles. Esto es lo que las define:
+
+1. **Matriz de casos, antes de codear.** En `## Casos` del `PLAN.md`, cada regla (R#) de la feature
+   se abre en **todos** sus casos, uno por fila en Dado/Cuando/Entonces. Ej. con las reglas de
+   vencimiento: no expira · fecha manual · N días desde el cargue · expira sin regla (rechazo) ·
+   expira con dos reglas (rechazo) · archivo ya vencido. Se repasa en la entrevista.
+2. **Cada caso se corre en la capa que corresponde:**
+
+   | Capa | Cómo | Herramienta |
+   |---|---|---|
+   | BD | SQL en una transacción con `ROLLBACK` | DataGrip; `pg-demo` (solo lectura para el asistente) |
+   | Backend | `curl` a la API | Servidor de pruebas `25.44.200.158/rep1` |
+   | Pantalla | Recorrer el flujo y capturar | Orca (skill `probar-en-navegador`) |
+
+3. **Al cerrar la feature, se recorre la matriz completa en Orca**, caso por caso, de punta a punta.
+   Una captura por caso a `evidencia/`. Si un caso falla, la feature no se cierra.
+4. **Datos de prueba:** se crean a mano en el entorno de desarrollo; no hace falta script.
+
+**Fuera por ahora:** tests automáticos (proyecto de tests en la solución). Es una decisión grande
+para .NET 4.6.2 sin CI y lleva su propia discusión.
+
 ## Verificación (`verification-before-completion`)
 
 Regla: **"listo" sin evidencia no es listo.** Frases como "debería andar", "compila seguro" o "lo probé antes" no cuentan.
 
-- **Evidencia válida:** salida del build (`msbuild … -p:Configuration=Debug`, 0 errores; en git bash con `-p:`, porque `/p:` lo convierte MSYS en una ruta), resultado de cada caso Dado/Cuando/Entonces del `PLAN.md` (respuesta de Postman, captura, resultado de un SQL antes/después) y, en front, `npm run build`.
-- **Dónde queda:** en `## Verificación` de `IMPLEMENTACION.md`, un renglón por caso con el resultado obtenido (no el esperado). La casilla del `PLAN.md` se tilda recién con eso escrito.
+- **Evidencia válida:** salida del build (`msbuild … -p:Configuration=Debug`, 0 errores; en git bash con `-p:`, porque `/p:` lo convierte MSYS en una ruta), resultado de cada caso de la matriz (captura de Orca, respuesta de `curl`, resultado de un SQL antes/después) y, en front, `npm run build`.
+- **Dónde queda:** en una feature, en la columna Resultado de `## Casos` del `PLAN.md` (el resultado obtenido, no el esperado) y una línea en el `## Log`. En un bug, en `## Verificación` de `IMPLEMENTACION.md`. La casilla se tilda recién con eso escrito.
 - **Si algo falla o se saltó**, se escribe así tal cual ("caso 5 no probado: falta token de prueba"). Nunca se tilda en silencio.
 - **Carpeta `evidencia/`** dentro de la feature, para lo que se captura y no cabe en el texto:
   `antes-<caso>.json` y `despues-<caso>.json` (respuesta del servicio), capturas `.png` y salidas
-  de consulta. Se nombra por caso y `IMPLEMENTACION.md` la enlaza. Precedente:
+  de consulta. Se nombra por número de caso y el `PLAN.md` la enlaza. Precedente:
   `contabilidad/archivos-contabilidad/consultas-documentos-sql/evidencia/`.
 
 ## Prácticas de verificación y Definition of Done
@@ -28,19 +52,15 @@ Regla: **"listo" sin evidencia no es listo.** Frases como "debería andar", "com
 El repo no tiene tests automáticos ni CI, así que la verificación se diseña **antes** de
 programar, no se improvisa al final. Prácticas tomadas de fuentes existentes, no inventadas.
 
-**Ya usadas en una feature real** (`consultas-documentos-sql`): la sección "Verificación" del `ANALISIS.md`, el golden master y la Definition of Done. **Sin probar todavía:** la revisión con contexto fresco y los no-gos/appetite.
+**Ya usadas en una feature real** (`consultas-documentos-sql`): la verificación diseñada antes de programar, el golden master y la Definition of Done. **Sin probar todavía:** la revisión con contexto fresco y los no-gos/appetite.
 
 
 - **Dimensionar el proceso** (BMAD "a escala", guía de Anthropic): si el cambio se describe
   en una línea de diff, no lleva plan ni spec — ver [qué archivos crear](./estructura.md).
-- **Criterios de aceptación en Given/When/Then** dentro de `REQUERIMIENTO.md`
+- **Criterios de aceptación en Given/When/Then** en la matriz de casos del `PLAN.md`
   ([Cucumber BDD](https://cucumber.io/docs/bdd/)), solo como formato de texto, sin
   automatizar. Ej.: *Dado un crédito vencido, cuando se ejecuta el cierre, entonces pasa a
-  cobranza.*
-- **Sección "Verificación" en cada `ANALISIS.md`** (Anthropic: *"si no puedes verificarlo, no lo
-  despaches"*): qué se comprueba y qué evidencia se espera (compara antes/después, captura,
-  checklist manual). Va en términos de negocio; el `PLAN.md` la baja a pasos concretos y el
-  comando o script se anota en `IMPLEMENTACION.md` al construir.
+  cobranza.* (Anthropic: *"si no puedes verificarlo, no lo despaches"*.)
 - **Golden master puntual** ([Feathers, characterization tests](https://michaelfeathers.silvrback.com/characterization-testing)):
   antes de tocar lógica delicada (contabilidad, cartera, nómina, XML DIAN) se captura la
   salida actual y se compara después. Solo el área que se cambia, no cobertura amplia.
@@ -59,7 +79,8 @@ feature está cerrada cuando:
 
 - [ ] Compila (build de la solución)
 - [ ] Archivos nuevos registrados en el `.csproj`
-- [ ] Verificación del `ANALISIS.md` ejecutada, con evidencia escrita en `IMPLEMENTACION.md` (ver "Verificación" arriba)
+- [ ] Las R# de la feature están confirmadas en `REGLAS-DE-NEGOCIO.md`
+- [ ] Matriz de casos recorrida en Orca: Resultado lleno en cada fila y capturas en `evidencia/` (ver "Cómo se prueba" arriba)
 - [ ] `ADR.md` si hubo decisión de diseño
 - [ ] Filas de `README.md` sincronizadas (ver [chequeo de sincronización](./mantenimiento.md))
 

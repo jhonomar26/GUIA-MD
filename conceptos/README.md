@@ -9,4 +9,5 @@ parte del código SIIAN.
 | [ESTRATEGIA_PLANES_INCREMENTALES.md](./ESTRATEGIA_PLANES_INCREMENTALES.md) | Por qué dividir planes grandes en fases chicas verificadas en vez de ejecutar todo de corrido |
 | [ORGANIZACION_SCRIPTS_SQL.md](./ORGANIZACION_SCRIPTS_SQL.md) | Convención de entregables SQL: la ubicación del archivo/carpeta es el estado |
 | [PATRON_FK_LAZY_LOAD.md](./PATRON_FK_LAZY_LOAD.md) | Patrón de resolución de FK con propiedades lazy en `Blip.Data`, en vez de EF navigation/JOIN manual |
+| [PATRON_DOS_DUENOS.md](./PATRON_DOS_DUENOS.md) | Cómo se reparte una funcionalidad que sirve a comprobante y documento equivalente: borde web con los dos ids, clases por dueño hacia abajo |
 | [REPORT_DESIGNER.md](./REPORT_DESIGNER.md) | Modelo mental del End-User Report Designer de DevExpress |

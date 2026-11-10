@@ -6,20 +6,22 @@ Las notas van en Markdown dentro de este repo, **por módulo de negocio** (los m
 
 **¿Qué voy a hacer?**
 
+El asistente trabaja con **ODD**, que decide el tamaño y lleva el ritmo. Esta guía solo agrega lo que ODD no cubre: reglas de negocio primero, cómo partir, explicar antes de codear y cómo probar. → [quién hace qué](./guia/flujo-de-feature.md)
+
 | Mi cambio es... | Qué hago |
 |---|---|
-| Algo chico: un método o una consulta, sin dudas | Nada de notas. Alcanza con el mensaje del commit |
+| Algo chico: se retoma desde el `git diff` (un método o una consulta, sin reglas nuevas) | Nada de notas. Alcanza con el mensaje del commit |
 | Un bug | `REQUERIMIENTO.md` (qué ve el usuario) → causa raíz → `IMPLEMENTACION.md` (causa, archivos, cambio, verificación). Ver [verificación y cierre](./guia/verificacion-y-cierre.md) |
-| Una feature | Los 6 pasos de abajo |
+| Un tema grande (ej. "el expediente de ahorros") | Los 3 pasos de abajo |
 
-**Una feature nueva, en 6 pasos**
+**Un tema grande, en 3 pasos**
 
-1. **Creo la carpeta** en su módulo (y en su área, si el módulo tiene una) con un `README.md` que abre con la cabecera: módulo, área, menú, estado. → [estructura](./guia/estructura.md)
-2. **`REQUERIMIENTO.md`**: qué piden, en palabras de negocio.
-3. **`ANALISIS.md`**: qué ya existe en SIIAN y qué falta, sin código. Sale de explorar el código y preguntar de a una. → [cómo se hace](./guia/como-hacer-un-analisis.md), [tamaño y herramientas](./guia/flujo-de-feature.md)
-4. **`ADR.md`** si hubo que elegir entre enfoques, y **`PLAN.md`** con **etapas verticales chicas** (backend + pantalla + prueba) y casillas.
-5. **Por cada etapa:** entiendo la lógica antes de programar, programo, y verifico con evidencia (build en 0 errores y cada caso probado; lo capturado va en `evidencia/`). → [flujo de feature](./guia/flujo-de-feature.md)
-6. **Cierro:** `IMPLEMENTACION.md` con la sección `## Verificación`, `PLAN` y `EXPLICACION` a `archivo/`, estado `vigente` y las filas de los README. → [verificación y cierre](./guia/verificacion-y-cierre.md)
+1. **Reglas primero, antes de todo.** Carpeta del tema con `README.md` (cabecera), `REQUERIMIENTO.md` (el pedido textual), `ANALISIS.md` (qué existe, flujo con diagrama) y `REGLAS-DE-NEGOCIO.md` (R1, R2… con su porqué y estado). No se avanza con reglas en el limbo. → [flujo](./guia/flujo-de-feature.md), [cómo se hace un análisis](./guia/como-hacer-un-analisis.md)
+2. **Partir en features chicas verticales**: cada una con BD + backend + pantalla + prueba, crea solo sus tablas, y la primera ya muestra algo en pantalla. → [estructura](./guia/estructura.md)
+3. **Por cada feature:** `PLAN.md` (Specs con sus R#, matriz de casos, tareas, log) → `EXPLICACION.md` + entrevista → código → recorrido de la matriz en Orca, con capturas en `evidencia/` → estado `vigente`. → [cómo se prueba](./guia/verificacion-y-cierre.md)
+   **Una a la vez:** la siguiente no arranca hasta que esta se probó en pantalla; lo que aparece al probar corrige las reglas y el plan de las que siguen.
+   Los scripts SQL van en una carpeta por feature, igual que estas notas, numerados `01-`, `02-`…, nunca `3b`. → [scripts](./guia/estructura.md#scripts-sql)
+   Si la feature cambia la base de datos, **regenero las plantillas** y pego lo que sirve antes de escribir a mano. → [plantillas](./guia/plantillas.md)
 
 Los commits solo se hacen cuando se piden.
 
@@ -27,11 +29,13 @@ Los commits solo se hacen cuando se piden.
 
 | Si busco... | Voy a |
 |---|---|
-| Dónde va mi feature, qué archivos crear, **cabecera del README**, **área**, **Reglas de contenido** | [`guia/estructura.md`](./guia/estructura.md) |
-| **Tamaño** de la tarea (ODD), etapas verticales, skills de apoyo, **entender antes de construir**, **paso 3b** (entender el código), spike | [`guia/flujo-de-feature.md`](./guia/flujo-de-feature.md) |
-| **Flujo de bug**, **Verificación**, carpeta `evidencia/`, golden master, **Definition of Done** | [`guia/verificacion-y-cierre.md`](./guia/verificacion-y-cierre.md) |
+| Dónde va mi feature, qué archivos crear, **formato del `PLAN.md`**, **cabecera del README**, **área**, **Reglas de contenido**, **scripts SQL** | [`guia/estructura.md`](./guia/estructura.md), detalle en [`Guia base de datos siian.md`](./Guia%20base%20de%20datos%20siian.md) |
+| **ODD y la guía (quién hace qué)**, **reglas primero**, features verticales, **entender antes de construir**, **paso 3b** (entender el código), spike | [`guia/flujo-de-feature.md`](./guia/flujo-de-feature.md) |
+| **Cómo se prueba** (matriz de casos, Orca), **flujo de bug**, **Verificación**, carpeta `evidencia/`, golden master, **Definition of Done** | [`guia/verificacion-y-cierre.md`](./guia/verificacion-y-cierre.md) |
+| **Cambié la base de datos** (tabla o columna nueva): regenerar con las **plantillas** `D:\plantillas\WFAGenerarDao`, qué pegar y qué adaptar, `GeneralDao.cs` | [`guia/plantillas.md`](./guia/plantillas.md) |
 | Cómo escribir un `ANALISIS.md` | [`guia/como-hacer-un-analisis.md`](./guia/como-hacer-un-analisis.md) |
 | Migrar un doc viejo, rastrear cambios, **chequeo de sincronización** de tablas | [`guia/mantenimiento.md`](./guia/mantenimiento.md) |
+| Una funcionalidad que sirve a **comprobante y documento equivalente** (dónde va cada cosa, qué recibe cada capa) | [`conceptos/PATRON_DOS_DUENOS.md`](./conceptos/PATRON_DOS_DUENOS.md) |
 | Ejemplos reales de principio a fin | [`GUIA_EJEMPLOS.md`](./GUIA_EJEMPLOS.md) |
 
 Los conceptos que cruzan módulos (ej. el Report Designer) van en `conceptos/`, no repetidos en cada feature.
